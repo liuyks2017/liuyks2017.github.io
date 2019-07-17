@@ -1,0 +1,375 @@
+
+<!DOCTYPE html>
+<html lang class="loading">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>从零开始的BBS项目实战之环境部署 - 茶靡往事</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="Finara,"> 
+    <meta name="description" content="我特么真是个天才,
+写在开头：看到这篇文章的你，一定是要对javascript以及django的用法略懂一二，否则将很难入手。本次项目的目的是在尝试使用vue.js做前后台分离的基础上实体化部分可用需求，为以后的工作,"> 
+    <meta name="author" content="Finara"> 
+    <link rel="alternative" href="atom.xml" title="茶靡往事" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+</head>
+</html>
+<body class="loading">
+    <span id="config-title" style="display:none">茶靡往事</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url=""></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">从零开始的BBS项目实战之环境部署</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">从零开始的BBS项目实战之环境部署</h1>
+        <div class="stuff">
+            <span>七月 17, 2019</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/bbs/">bbs</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/django/">django</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/python/">python</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/vue/">vue</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/web/">web</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <blockquote>
+<p>写在开头：看到这篇文章的你，一定是要对javascript以及django的用法略懂一二，否则将很难入手。本次项目的目的是在尝试使用vue.js做前后台分离的基础上实体化部分可用需求，为以后的工作做准备。</p>
+</blockquote>
+<blockquote>
+<p>如果你不是很了解相关技术，也可以点击查看学习文档，<a href="https://www.runoob.com/vue2/vue-tutorial.html" target="_blank" rel="noopener">Vue.js</a>、<a href="https://www.runoob.com/django/django-tutorial.html" target="_blank" rel="noopener">Django</a>。</p>
+</blockquote>
+<h2 id="项目背景"><a href="#项目背景" class="headerlink" title="项目背景"></a>项目背景</h2><p>于2019年起，越来越多的项目将vue.js引用到实际的项目环境中，其带来的效果也确实显著，后台开发人员也不用再专注于了解Bootstrap等前端框架技术，甚至是页面样式。于此同时，前后台分离的工作方式也将各个条线的开发人员工作内容解耦，不再产生依赖，对于开发与测试来说都是具有良性效果的，因此，为了适应如今的开发新环境，笔者有必要对现有的技术栈做扩充，也借此需求练手。</p>
+<h2 id="项目介绍"><a href="#项目介绍" class="headerlink" title="项目介绍"></a>项目介绍</h2><p>项目初期想要找一个相对成熟的BBS开源项目作为基石，但查阅很久也并没有什么效果，于是决定从零开始。也以学习和记录的形式，一步一步得实现我最终想要的效果:面向公司员工，且集成复杂社交活动与办公的线上化社区，将生活、管理等人为活动线上化，提高人员互动的同时保留数据支持，为后期数据提取与分析工作做准备。</p>
+<p>在分析技术栈的时候，由于笔者常年使用python作为主开发工具，django也因此进入了我的视线，其丰富的集成功能将成为有力武器。因此，整体的技术栈大致如下：</p>
+<table>
+<thead>
+<tr>
+<th>技术类型</th>
+<th>技种</th>
+<th>优势</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>前端框架</td>
+<td>vue.js</td>
+<td>前后端分离，组件式开发</td>
+</tr>
+<tr>
+<td>样式框架</td>
+<td>Bootstrap</td>
+<td>简约多变的样式风格，使用简单</td>
+</tr>
+<tr>
+<td>后台框架</td>
+<td>Django</td>
+<td>海量工具库，方便环境迁移</td>
+</tr>
+<tr>
+<td>数据库</td>
+<td>sqlite</td>
+<td>轻量数据库方便测试</td>
+</tr>
+</tbody></table>
+<h2 id="环境部署"><a href="#环境部署" class="headerlink" title="环境部署"></a>环境部署</h2><p>今天的任务，主要为搭建一个Vue.js+Django的开发环境，为今后的开发工作奠定基础。</p>
+<h3 id="Django安装"><a href="#Django安装" class="headerlink" title="Django安装"></a>Django安装</h3><p>部署django至少需要一个python环境，但为了方便项目资源打包，我更习惯使用python虚拟环境来管理整个代码。</p>
+<h4 id="虚拟环境创建"><a href="#虚拟环境创建" class="headerlink" title="虚拟环境创建"></a>虚拟环境创建</h4><blockquote>
+<p>安装virtualenv虚拟环境</p>
+</blockquote>
+<p>众所周知，在安装python包的时候大多都选择使用pip自动安装，但python.org毕竟是国外网站，有时速度会非常慢，因此笔者推荐使用豆瓣镜像来下载：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip install virtualenv -i http://pypi.douban.com/simple --trusted-host pypi.douban.com</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>部署python3.x虚拟环境</p>
+</blockquote>
+<p>windows倒还好说，但是linux和macox等系统普遍都会预置Python2.x版本，对于大多数高版本的包无法完全兼容，因此笔者更习惯使用python3.x作为开发版本。那么问题来了，使用virtualenv创建虚拟环境的时候会创建默认版本的python2.7，如果想要创建3.6版本就需要用到其指定路径的方式进行配置：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">virtualenv -p /Library/Frameworks/Python.framework/Versions/<span class="number">3.6</span>/bin/python3<span class="number">.6</span> venv</span><br></pre></td></tr></table></figure>
+
+<p>虚拟环境安装完毕后只需要进入到bin目录下执行activate即可，具体命令为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">开启虚拟环境：</span><br><span class="line">cd venv/bin</span><br><span class="line">source activate</span><br><span class="line"></span><br><span class="line">关闭虚拟环境：</span><br><span class="line">deactivate</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>安装django</p>
+</blockquote>
+<p>进入虚拟环境后使用豆瓣镜像安装Django</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip install django -i http://pypi.douban.com/simple --trusted-host pypi.douban.com</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>创建项目</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">django-admin startproject yusys</span><br></pre></td></tr></table></figure>
+
+<p>创建成功后的目录为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── manage.py</span><br><span class="line">└── yusys</span><br><span class="line">    ├── __init__.py</span><br><span class="line">    ├── settings.py</span><br><span class="line">    ├── urls.py</span><br><span class="line">    └── wsgi.py</span><br></pre></td></tr></table></figure>
+
+<p>进入项目根目录，创建一个APP作为项目后端</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd yusys</span><br><span class="line">python manage.py startapp backend       　　　　　　//backend就是app名称</span><br></pre></td></tr></table></figure>
+
+<p>创建完成后的目录为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── backend</span><br><span class="line">│   ├── __init__.py</span><br><span class="line">│   ├── admin.py</span><br><span class="line">│   ├── migrations</span><br><span class="line">│   │   └── __init__.py</span><br><span class="line">│   ├── models.py</span><br><span class="line">│   ├── tests.py</span><br><span class="line">│   └── views.py</span><br><span class="line">├── manage.py</span><br><span class="line">└── yusys</span><br><span class="line">    ├── __init__.py</span><br><span class="line">    ├── settings.py</span><br><span class="line">    ├── urls.py</span><br><span class="line">    └── wsgi.py</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>修改配置文件</p>
+</blockquote>
+<p>并把app加入到installed_apps列表里：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">INSTALLED_APPS = [</span><br><span class="line">    <span class="string">'django.contrib.admin'</span>,</span><br><span class="line">    <span class="string">'django.contrib.auth'</span>,</span><br><span class="line">    <span class="string">'django.contrib.contenttypes'</span>,</span><br><span class="line">    <span class="string">'django.contrib.sessions'</span>,</span><br><span class="line">    <span class="string">'django.contrib.messages'</span>,</span><br><span class="line">    <span class="string">'django.contrib.staticfiles'</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="string">'backend'</span>,	<span class="comment"># 自定义应用我通常和上面的隔开用以区分</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在models.py中创建简单的model如下：</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> unicode_literals</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create your models here.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    book_name = models.CharField(max_length=<span class="number">64</span>)</span><br><span class="line">    add_time = models.DateTimeField(auto_now_add=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__unicode__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.book_name</span><br></pre></td></tr></table></figure>
+
+<p>只有两个字段，书名book_name和添加时间add_time。如果没有指定主键的话django会自动新增一个自增id作为主键。</p>
+<blockquote>
+<p>创建测试接口</p>
+</blockquote>
+<p>在backend目录下的views里我们新增两个接口，一个是show_books返回所有的书籍列表（通过JsonResponse返回能被前端识别的json格式数据），二是add_book接受一个get请求，往数据库里添加一条book数据：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Create your views here.</span></span><br><span class="line"><span class="meta">@require_http_methods(["GET"])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_book</span><span class="params">(request)</span>:</span></span><br><span class="line">    response = &#123;&#125;</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        book = Book(book_name=request.GET.get(<span class="string">'book_name'</span>))</span><br><span class="line">        book.save()</span><br><span class="line">        response[<span class="string">'msg'</span>] = <span class="string">'success'</span></span><br><span class="line">        response[<span class="string">'error_num'</span>] = <span class="number">0</span></span><br><span class="line">    <span class="keyword">except</span>  Exception,e:</span><br><span class="line">        response[<span class="string">'msg'</span>] = str(e)</span><br><span class="line">        response[<span class="string">'error_num'</span>] = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> JsonResponse(response)</span><br><span class="line"></span><br><span class="line"><span class="meta">@require_http_methods(["GET"])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show_books</span><span class="params">(request)</span>:</span></span><br><span class="line">    response = &#123;&#125;</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        books = Book.objects.filter()</span><br><span class="line">        response[<span class="string">'list'</span>]  = json.loads(serializers.serialize(<span class="string">"json"</span>, books))</span><br><span class="line">        response[<span class="string">'msg'</span>] = <span class="string">'success'</span></span><br><span class="line">        response[<span class="string">'error_num'</span>] = <span class="number">0</span></span><br><span class="line">    <span class="keyword">except</span>  Exception,e:</span><br><span class="line">        response[<span class="string">'msg'</span>] = str(e)</span><br><span class="line">        response[<span class="string">'error_num'</span>] = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> JsonResponse(response)</span><br></pre></td></tr></table></figure>
+
+<p>可以看出，在ORM的帮忙下，我们的接口实际上不需要自己去组织SQL代码。</p>
+<blockquote>
+<p>添加路由</p>
+</blockquote>
+<p>在app目录下，新增一个urls.py文件，把我们新增的两个接口添加到路由里：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> url, include</span><br><span class="line"><span class="keyword">import</span> .views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">url(<span class="string">r'add_book$'</span>, views.add_book, ),</span><br><span class="line">url(<span class="string">r'show_books$'</span>, views.show_books, ),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>我们还要把app下的urls添加到project下的urls中，才能完成路由：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> url, include</span><br><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span><br><span class="line"><span class="keyword">from</span> django.views.generic <span class="keyword">import</span> TemplateView</span><br><span class="line"><span class="keyword">import</span> backend.urls</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    url(<span class="string">r'^admin/'</span>, admin.site.urls),</span><br><span class="line">    url(<span class="string">r'^api/'</span>, include(myapp.urls)),</span><br><span class="line">    url(<span class="string">r'^$'</span>, TemplateView.as_view(template_name=<span class="string">"index.html"</span>)),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>初始化数据库资源</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python manage.py makemigrations</span><br><span class="line"></span><br><span class="line">python manage.py migrate</span><br></pre></td></tr></table></figure>
+
+<p>输入以下启动命令验证django是否部署完成：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py runserver</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>测试接口</p>
+</blockquote>
+<p>启动服务，通过Url测试一下刚才的接口，看是否生效：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">add_book: http://localhost:8000/api/add_book?book_name=test</span><br><span class="line">show_books: http://localhost:8000/api/show_books</span><br></pre></td></tr></table></figure>
+
+<p>至此django环境的部署就完成了。</p>
+<h3 id="Vue-js环境搭建"><a href="#Vue-js环境搭建" class="headerlink" title="Vue.js环境搭建"></a>Vue.js环境搭建</h3><blockquote>
+<p>部署Node.js环境</p>
+</blockquote>
+<p>如果不确定自己是否安装了node,可以在命令行工具内执行： node -v </p>
+<p>如果确定没有安装后可以到<a href="http://nodejs.cn/download/" target="_blank" rel="noopener">Node下载地址</a>进行下载。</p>
+<blockquote>
+<p>安装脚手架</p>
+</blockquote>
+<p>先用npm安装vue-cli脚手架工具（vue-cli是官方脚手架工具，能迅速帮你搭建起vue项目的框架）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install -g vue-cli	//加-g是安装到全局</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>使用淘宝镜像下载依赖</p>
+</blockquote>
+<p>安装cnpm</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install cnpm -g --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+
+<p>其中，cnpm跟npm用法完全一致，只是在执行命令时将npm改为cnpm。</p>
+<p>安装好后，在yusys项目根目录下，新建一个前端工程目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vue-init webpack appfront  //安装中把vue-router选上，我们须要它来做前端路由</span><br></pre></td></tr></table></figure>
+
+<p>进入appfront目录，运行命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install //安装vue所须要的node依赖</span><br></pre></td></tr></table></figure>
+
+<p>在目录src下包含入口文件main.js，入口组件App.vue等。后缀为vue的文件是Vue.js框架定义的单文件组件，其中标签中的内容可以理解为是类html的页面结构内容，标签中的是js的方法、数据方面的内容，而则是css样式方面的内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;hello&quot;&gt;</span><br><span class="line">    &lt;h1&gt;&#123;&#123; msg &#125;&#125;&lt;/h1&gt;</span><br><span class="line">    &lt;h2&gt;Essential Links&lt;/h2&gt;</span><br><span class="line">    &lt;ul&gt;</span><br><span class="line">      &lt;li&gt;&lt;a href=&quot;https://vuejs.org&quot; target=&quot;_blank&quot;&gt;Core Docs&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">      &lt;li&gt;&lt;a href=&quot;https://forum.vuejs.org&quot; target=&quot;_blank&quot;&gt;Forum&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">      &lt;li&gt;&lt;a href=&quot;https://gitter.im/vuejs/vue&quot; target=&quot;_blank&quot;&gt;Gitter Chat&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">      &lt;li&gt;&lt;a href=&quot;https://twitter.com/vuejs&quot; target=&quot;_blank&quot;&gt;Twitter&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">      &lt;br&gt;</span><br><span class="line">      &lt;li&gt;&lt;a href=&quot;http://vuejs-templates.github.io/webpack/&quot; target=&quot;_blank&quot;&gt;Docs for This Template&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">    &lt;/ul&gt;</span><br><span class="line">    &lt;h2&gt;Ecosystem&lt;/h2&gt;</span><br><span class="line">    &lt;ul&gt;</span><br><span class="line">      &lt;li&gt;&lt;a href=&quot;http://router.vuejs.org/&quot; target=&quot;_blank&quot;&gt;vue-router&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">      &lt;li&gt;&lt;a href=&quot;http://vuex.vuejs.org/&quot; target=&quot;_blank&quot;&gt;vuex&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">      &lt;li&gt;&lt;a href=&quot;http://vue-loader.vuejs.org/&quot; target=&quot;_blank&quot;&gt;vue-loader&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">      &lt;li&gt;&lt;a href=&quot;https://github.com/vuejs/awesome-vue&quot; target=&quot;_blank&quot;&gt;awesome-vue&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">    &lt;/ul&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &apos;hello&apos;,</span><br><span class="line">  data () &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      msg: &apos;Welcome to Your Vue.js App&apos;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- Add &quot;scoped&quot; attribute to limit CSS to this component only --&gt;</span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">h1, h2 &#123;</span><br><span class="line">  font-weight: normal;</span><br><span class="line">&#125;</span><br><span class="line">ul &#123;</span><br><span class="line">  list-style-type: none;</span><br><span class="line">  padding: 0;</span><br><span class="line">&#125;</span><br><span class="line">li &#123;</span><br><span class="line">  display: inline-block;</span><br><span class="line">  margin: 0 10px;</span><br><span class="line">&#125;</span><br><span class="line">a &#123;</span><br><span class="line">  color: #42b983;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>改写http请求</p>
+</blockquote>
+<p>首先下载axios:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install axios</span><br><span class="line"></span><br><span class="line">npm install --save axios vue-axios</span><br></pre></td></tr></table></figure>
+
+<p>在src目录下新增api目录，并创建index.js，并引用axios:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">import axios from &apos;axios&apos;</span><br><span class="line"></span><br><span class="line">let http = axios.create(&#123;</span><br><span class="line">  baseURL: &apos;http://localhost:8000/&apos;,</span><br><span class="line">  withCredentials: true,</span><br><span class="line">  headers: &#123;</span><br><span class="line">    &apos;Content-Type&apos;: &apos;application/x-www-form-urlencoded;charset=utf-8&apos;</span><br><span class="line">  &#125;,</span><br><span class="line">  transformRequest: [function (data) &#123;</span><br><span class="line">    let newData = &apos;&apos;</span><br><span class="line">    for (let k in data) &#123;</span><br><span class="line">      if (data.hasOwnProperty(k) === true) &#123;</span><br><span class="line">        newData += encodeURIComponent(k) + &apos;=&apos; + encodeURIComponent(data[k]) + &apos;&amp;&apos;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return newData</span><br><span class="line">  &#125;]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">function apiAxios (method, url, params, response) &#123;</span><br><span class="line">  http(&#123;</span><br><span class="line">    method: method,</span><br><span class="line">    url: url,</span><br><span class="line">    data: method === &apos;POST&apos; || method === &apos;PUT&apos; ? params : null,</span><br><span class="line">    params: method === &apos;GET&apos; || method === &apos;DELETE&apos; ? params : null</span><br><span class="line">  &#125;).then(function (res) &#123;</span><br><span class="line">    response(res)</span><br><span class="line">  &#125;).catch(function (err) &#123;</span><br><span class="line">    response(err)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  get: function (url, params, response) &#123;</span><br><span class="line">    return apiAxios(&apos;GET&apos;, url, params, response)</span><br><span class="line">  &#125;,</span><br><span class="line">  post: function (url, params, response) &#123;</span><br><span class="line">    return apiAxios(&apos;POST&apos;, url, params, response)</span><br><span class="line">  &#125;,</span><br><span class="line">  put: function (url, params, response) &#123;</span><br><span class="line">    return apiAxios(&apos;PUT&apos;, url, params, response)</span><br><span class="line">  &#125;,</span><br><span class="line">  delete: function (url, params, response) &#123;</span><br><span class="line">    return apiAxios(&apos;DELETE&apos;, url, params, response)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在main.js中引用api：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import Api from &apos;./api/index.js&apos;;</span><br><span class="line">Vue.prototype.$api = Api;</span><br></pre></td></tr></table></figure>
+
+<p>完毕后，以后如果需要接受请求数据都可以使用api下的get或post方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">this.$api.get(&apos;api/add_book&apos;, &#123;</span><br><span class="line">        book_name: &apos;demo&apos;</span><br><span class="line">      &#125;, response =&gt; &#123;</span><br><span class="line">        if (response.status &gt;= 200 &amp;&amp; response.status &lt; 300) &#123;</span><br><span class="line">          console.log(response.data)</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">          console.log(response.message)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>修改HelloWorld.vue</p>
+</blockquote>
+<p>http函数已经准备完毕了，剩下就需要在页面中添加点击事件并向服务器发起请求，修改HelloWorld.vue：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;hello&quot;&gt;</span><br><span class="line">    &lt;h1&gt;&#123;&#123; msg &#125;&#125;&lt;/h1&gt;</span><br><span class="line">    &lt;input v-model=&quot;input&quot; placeholder=&quot;请输入书名&quot; style=&quot;display:inline-table; width: 30%; float:left&quot; /&gt;</span><br><span class="line">    &lt;button @click=&quot;addBook()&quot; style=&quot;float:left; margin: 2px;&quot;&gt;测试新增&lt;/button&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &apos;Home&apos;,</span><br><span class="line">  data () &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      input: &apos;&apos;,</span><br><span class="line">      msg: &apos;Welcome to Your Vue.js App&apos;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    addBook () &#123;</span><br><span class="line">      this.$api.get(&apos;api/add_book&apos;, &#123;</span><br><span class="line">        book_name: &apos;demo&apos;</span><br><span class="line">      &#125;, response =&gt; &#123;</span><br><span class="line">        if (response.status &gt;= 200 &amp;&amp; response.status &lt; 300) &#123;</span><br><span class="line">          console.log(response.data)</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">          console.log(response.message)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>设置输入框并绑定到事件中，设置add函数。</p>
+<blockquote>
+<p>启动服务器</p>
+</blockquote>
+<p>进入前端项目目录frontend执行启动命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run dev</span><br></pre></td></tr></table></figure>
+
+<p>如果不出意外，打开服务网址后就可以看到Vue.js的图标，但是点击按钮却没有效果，原因就在于目前为止还没有完成和后端的绑定。但前端框架的部署到此也就完成了。</p>
+<h3 id="前后端整合"><a href="#前后端整合" class="headerlink" title="前后端整合"></a>前后端整合</h3><p>熟悉django的人都知道，它通常使用的是template模板作为前端展示页面，我们也会在项目目录中创建一个templates目录作为模板的根目录，那么我们只需要将模板路径引入到webpack下不就实现效果了么？于是修改配置文件即可。</p>
+<blockquote>
+<p>webpack打包<br>之前的vue.js只是一个测试环境，需要使用命令将js代码与样式文件打包，这也是使用webpack的主要原因：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+
+<p>打包完成后会在前端目录中生成一个dist文件夹，目录如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── index.html</span><br><span class="line">└── static</span><br></pre></td></tr></table></figure>
+
+<p>其中，index.html为入口文件，static则为所有打包后的静态资源的文件夹。</p>
+<blockquote>
+<p>修改django配置文件</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">TEMPLATES = [</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">'BACKEND'</span>: <span class="string">'django.template.backends.django.DjangoTemplates'</span>,</span><br><span class="line">        <span class="string">'DIRS'</span>: [<span class="string">'frontend/dist'</span>],</span><br><span class="line">        <span class="string">'APP_DIRS'</span>: <span class="literal">True</span>,</span><br><span class="line">        <span class="string">'OPTIONS'</span>: &#123;</span><br><span class="line">            <span class="string">'context_processors'</span>: [</span><br><span class="line">                <span class="string">'django.template.context_processors.debug'</span>,</span><br><span class="line">                <span class="string">'django.template.context_processors.request'</span>,</span><br><span class="line">                <span class="string">'django.contrib.auth.context_processors.auth'</span>,</span><br><span class="line">                <span class="string">'django.contrib.messages.context_processors.messages'</span>,</span><br><span class="line">            ],</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>为了加载webpack中的静态资源，还需要修改staticfiles的目录配置：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">STATICFILES_DIRS = [</span><br><span class="line">    os.path.join(BASE_DIR,<span class="string">'frontend/dist/static'</span>)</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>至此，再重新启动django服务器后点击按钮，应该就已经成功了。</p>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>在使用webpack的时候，其内置了ESLint，及其恶心，所以在编写vue代码的时候一定要注意<a href="https://cloud.tencent.com/developer/section/1135630" target="_blank" rel="noopener">ESLint</a>语法规范，否则光改错都会让你痛不欲生。</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://link.hhtjim.com/163/5146554.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+       
+     <!--baidu share-->
+     <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone"></a><a href="#" class="bds_tsina" data-cmd="tsina"></a><a href="#" class="bds_tqq" data-cmd="tqq"></a><a href="#" class="bds_renren" data-cmd="renren"></a><a href="#" class="bds_weixin" data-cmd="weixin"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?'];</script>
+
+    <!--安装来必力-->
+    <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80MzI0OC8xOTc5NA==">
+<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+</script>
+<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+    
+    <!--生成目录-->
+    
+        <div class='side'>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#项目背景"><span class="toc-number">1.</span> <span class="toc-text">项目背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#项目介绍"><span class="toc-number">2.</span> <span class="toc-text">项目介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#环境部署"><span class="toc-number">3.</span> <span class="toc-text">环境部署</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Django安装"><span class="toc-number">3.1.</span> <span class="toc-text">Django安装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#虚拟环境创建"><span class="toc-number">3.1.1.</span> <span class="toc-text">虚拟环境创建</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vue-js环境搭建"><span class="toc-number">3.2.</span> <span class="toc-text">Vue.js环境搭建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#前后端整合"><span class="toc-number">3.3.</span> <span class="toc-text">前后端整合</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注意事项"><span class="toc-number">4.</span> <span class="toc-text">注意事项</span></a></li></ol>
+        </div>
+    
+
+   
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
