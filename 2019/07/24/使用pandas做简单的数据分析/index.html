@@ -1,0 +1,298 @@
+
+<!DOCTYPE html>
+<html lang class="loading">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>使用pandas做简单的数据分析 - 茶靡往事</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="Finara,"> 
+    <meta name="description" content="我特么真是个天才,数据分析的目的
+数据分析是指用适当的统计分析方法对收集来的大量数据进行分析，提取有用的信息并形成结论而对数据加以详细研究和概括总结的过程。
+
+
+如果只是会使用SQL做简单的查询甚至是复杂查询，并不能,"> 
+    <meta name="author" content="Finara"> 
+    <link rel="alternative" href="atom.xml" title="茶靡往事" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+</head>
+</html>
+<body class="loading">
+    <span id="config-title" style="display:none">茶靡往事</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url=""></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">使用pandas做简单的数据分析</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">使用pandas做简单的数据分析</h1>
+        <div class="stuff">
+            <span>七月 24, 2019</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/python/">python</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/思维/">思维</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/数据分析/">数据分析</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h2 id="数据分析的目的"><a href="#数据分析的目的" class="headerlink" title="数据分析的目的"></a>数据分析的目的</h2><blockquote>
+<p>数据分析是指用适当的统计分析方法对收集来的大量数据进行分析，提取有用的信息并形成结论而对数据加以详细研究和概括总结的过程。</p>
+</blockquote>
+<blockquote>
+<p>如果只是会使用SQL做简单的查询甚至是复杂查询，并不能说自己会分析数据。SQL作为一个工具只是提供了方法，但对于应用数据来说还需要有更加深入的人认识，并培养自己对数据的敏感度与关系度。</p>
+</blockquote>
+<blockquote>
+<p>本次案例，假设以河南省郑东银行2019年上半年的销售数据为例，目的是了解郑东银行在2019年上半年的销售状况，通过设计并计算关键KPI指标，发现数据背后隐藏的价值，并对下半年的经营分析任务提供建设性思路。</p>
+</blockquote>
+<h2 id="数据分析的基本过程"><a href="#数据分析的基本过程" class="headerlink" title="数据分析的基本过程"></a>数据分析的基本过程</h2><blockquote>
+<p>数据分析的基本过程主要包含：</p>
+<ul>
+<li>数据获取</li>
+<li>数据清洗</li>
+<li>模型构建</li>
+<li>数据可视化</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>其中数据主要来源自某银行的交易状况，并对关键字段进行脱敏处理。</p>
+</blockquote>
+<h3 id="获取数据"><a href="#获取数据" class="headerlink" title="获取数据"></a>获取数据</h3><blockquote>
+<p>以下为数据的部分截图：<br><img src="http://wx2.sinaimg.cn/mw690/007FUZQ3ly1g5b2gzbku2j30sp090di0.jpg" alt="测试数据"></p>
+</blockquote>
+<blockquote>
+<p>其中，测试数据是2019年上半年的交易流水，将近120W条，也以此来测试数据处理的效率。</p>
+</blockquote>
+<h4 id="读取excel"><a href="#读取excel" class="headerlink" title="读取excel"></a>读取excel</h4><blockquote>
+<p>首先导入需要用到的包</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>由于数据文件是csv格式的，可以直接调用pandas的read_csv函数读取数据，并返回一个dataFrame对象。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">file_name = <span class="string">'data-main.csv'</span></span><br><span class="line">data = pd.read_csv(file_name, dtype=&#123;<span class="string">'amt'</span>:np.float64&#125;,encoding=<span class="string">'GBK'</span>)</span><br><span class="line">print(data.head())</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://wx3.sinaimg.cn/mw690/007FUZQ3ly1g5b2n32sw1j30fd03bq3c.jpg" alt="查看结果集信息"></p>
+<blockquote>
+<p>通过df自带的函数查看数据的基本状况</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看前5行数据</span></span><br><span class="line">print(data.head())</span><br><span class="line"><span class="comment"># 查看数据维度</span></span><br><span class="line">print(data.shape)</span><br><span class="line"><span class="comment"># 查看索引</span></span><br><span class="line">print(data.index)</span><br><span class="line"><span class="comment"># 查看字段信息</span></span><br><span class="line">print(data.columns)</span><br><span class="line"><span class="comment"># 查看每个字段的数据个数</span></span><br><span class="line">print(data.count())</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://wx2.sinaimg.cn/mw690/007FUZQ3ly1g5b2pv80jwj30ml0h2jud.jpg" alt="数据详细信息"></p>
+<blockquote>
+<p>共有1048575行8列，但是dep_term_type字段的数据和其他列的不一致，所以该字段存在空值的情况，这些缺失数据也需要在后面做进一步的处理。</p>
+</blockquote>
+<h3 id="数据清洗"><a href="#数据清洗" class="headerlink" title="数据清洗"></a>数据清洗</h3><blockquote>
+<p>数据清洗过程包括：选择子集、列名重命名、缺失数据处理、数据类型转换、数据排序及异常值处理。</p>
+</blockquote>
+<h4 id="选择子集"><a href="#选择子集" class="headerlink" title="选择子集"></a>选择子集</h4><blockquote>
+<p>在我们获取到的数据中，可能数据量非常庞大，并不是每一列都有价值都需要分析，这时候就需要从整个数据中选取合适的子集进行分析，这样能从数据中获取最大价值。在本次案例中，提取的字段对我们来说都会用到，所以不涉及子集的选择。</p>
+</blockquote>
+<h4 id="列名重命名"><a href="#列名重命名" class="headerlink" title="列名重命名"></a>列名重命名</h4><blockquote>
+<p>在数据分析过程中，有些列名和数据容易混淆或产生歧义，不利于数据分析，这时候需要把列名换成容易理解的名称，可以采用rename函数实现：</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">data.rename(columns=&#123;</span><br><span class="line">    <span class="string">'business_code'</span>:<span class="string">'交易代码'</span>,</span><br><span class="line">    <span class="string">'client_no'</span>:<span class="string">'客户编码'</span>,</span><br><span class="line">    <span class="string">'prod_no'</span>:<span class="string">'产品编号'</span>,</span><br><span class="line">    <span class="string">'prod_name'</span>:<span class="string">'产品名称'</span>,</span><br><span class="line">    <span class="string">'acct_open_date'</span>:<span class="string">'开户日期'</span>,</span><br><span class="line">    <span class="string">'dep_term_period'</span>:<span class="string">'期限'</span>,</span><br><span class="line">    <span class="string">'dep_term_type'</span>:<span class="string">'期限类型'</span>,</span><br><span class="line">    <span class="string">'amt'</span>:<span class="string">'销售额'</span></span><br><span class="line">&#125;, inplace=<span class="literal">True</span>)</span><br><span class="line">print(data.head())</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://wx3.sinaimg.cn/mw690/007FUZQ3ly1g5b2wiyy9sj30mn0360th.jpg" alt="重命名后"></p>
+<h4 id="缺失数据处理"><a href="#缺失数据处理" class="headerlink" title="缺失数据处理"></a>缺失数据处理</h4><blockquote>
+<p>获取的数据中很有可能存在缺失值，通过查看基本信息可以推测“期限类型”这列存在缺失值，如果不处理这些缺失值会干扰后面的数据分析结果。缺失数据常用的处理方式为删除含有缺失数据的记录或者利用算法去补全缺失数据。在本次案例中为求方便，直接使用dropna函数删除缺失数据，具体如下：</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data = data.dropna(subset=[<span class="string">'期限类型'</span>], how=<span class="string">'any'</span>)</span><br><span class="line">print(data.info())</span><br></pre></td></tr></table></figure>
+
+<h4 id="数据类型转换"><a href="#数据类型转换" class="headerlink" title="数据类型转换"></a>数据类型转换</h4><blockquote>
+<p>在导入数据时为了防止导入不进来，会强制所有数据都是object类型，但实际数据分析过程中“销售额”需要浮点型（float）数据，因此需要对数据类型进行转换。可以使用astype()函数转为浮点型数据：</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data[<span class="string">'销售额'</span>] = data[<span class="string">'销售额'</span>].astype(<span class="string">'float'</span>)</span><br><span class="line">print(data.dtypes)</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://wx4.sinaimg.cn/mw690/007FUZQ3ly1g5b31e2nbvj309a05h74u.jpg" alt="转换后的数据类型"></p>
+<h4 id="数据排序"><a href="#数据排序" class="headerlink" title="数据排序"></a>数据排序</h4><blockquote>
+<p>此时时间是没有按顺序排列的，所以还是需要排序一下，排序之后索引会被打乱，所以也需要重置一下索引。其中by:表示按哪一列进行排序，ascending=True表示升序排列，ascending=False表示降序排列：</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 重新排序</span></span><br><span class="line">data = data.sort_values(by=<span class="string">'开户日期'</span>,ascending=<span class="literal">True</span>)</span><br><span class="line">print(data.head())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重置索引</span></span><br><span class="line">data = data.reset_index(drop = <span class="literal">True</span>)</span><br><span class="line">print(data.head())</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://wx3.sinaimg.cn/mw690/007FUZQ3ly1g5b33h6yzqj30mh06jq4f.jpg" alt></p>
+<h4 id="异常值统计"><a href="#异常值统计" class="headerlink" title="异常值统计"></a>异常值统计</h4><blockquote>
+<p>先查看数据的描述统计信息：</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(data.describe())</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>根据描述结果查看结果集的水位状况，销售额都为正数，所以无异常。</p>
+</blockquote>
+<p><img src="http://wx2.sinaimg.cn/mw690/007FUZQ3ly1g5b35nxeifj30kq04rwfc.jpg" alt></p>
+<h3 id="模型构建"><a href="#模型构建" class="headerlink" title="模型构建"></a>模型构建</h3><blockquote>
+<p>数据清洗完成后，需要利用数据构建模型（就是计算相应的业务指标），并用可视化的方式呈现结果。</p>
+</blockquote>
+<ul>
+<li>月均交易次数 = 总交易次数 / 月份数</li>
+</ul>
+<h4 id="计算总交易次数"><a href="#计算总交易次数" class="headerlink" title="计算总交易次数"></a>计算总交易次数</h4><blockquote>
+<p>由于统计月活时同一客户的多笔交易算作一笔，所以要对每日的同个客户去重：</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kpil_df = data.drop_duplicates(subset=[<span class="string">'开户日期'</span>,<span class="string">'客户编码'</span>])</span><br><span class="line">total = kpil_df.shape[<span class="number">0</span>]</span><br><span class="line">print(<span class="string">'总交易次数为：'</span>,total)</span><br></pre></td></tr></table></figure>
+
+<h4 id="计算月份"><a href="#计算月份" class="headerlink" title="计算月份"></a>计算月份</h4><blockquote>
+<p>计算月份需要得知数据的时间范围，因此需要将数据按开户日期排序，最大和最小值区间内便是时间范围：</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 按开户日期排序</span></span><br><span class="line">kpil_df = kpil_df.sort_values(by=<span class="string">'开户日期'</span>,ascending=<span class="literal">True</span>)</span><br><span class="line"><span class="comment"># 重置索引</span></span><br><span class="line">kpil_df = kpil_df.reset_index(drop=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">print(kpil_df[<span class="string">'开户日期'</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取时间范围</span></span><br><span class="line"><span class="comment"># 最小时间值</span></span><br><span class="line">startTime = datetime.datetime.strptime(str(kpil_df.loc[<span class="number">0</span>,<span class="string">'开户日期'</span>]),<span class="string">'%Y%m%d'</span>)</span><br><span class="line">print(<span class="string">'startTime'</span>,startTime)</span><br><span class="line"><span class="comment"># 最大时间值</span></span><br><span class="line">endTime = datetime.datetime.strptime(str(kpil_df.loc[total<span class="number">-1</span>,<span class="string">'开户日期'</span>]),<span class="string">'%Y%m%d'</span>)</span><br><span class="line">print(<span class="string">'endTime'</span>,endTime)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算天数</span></span><br><span class="line">days = (endTime - startTime).days</span><br><span class="line">months = days//<span class="number">30</span></span><br><span class="line">print(days,months)</span><br></pre></td></tr></table></figure>
+
+<h4 id="计算月均交易次数"><a href="#计算月均交易次数" class="headerlink" title="计算月均交易次数"></a>计算月均交易次数</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kpil_i = total // months</span><br><span class="line">print(<span class="string">'业务指标I：月均交易次数为'</span>,kpil_i)</span><br></pre></td></tr></table></figure>
+
+<h3 id="月均交易金额"><a href="#月均交易金额" class="headerlink" title="月均交易金额"></a>月均交易金额</h3><ul>
+<li>月均交易金额 = 总交易金额 / 月份数</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">totalMoney = data.loc[:,<span class="string">'销售额'</span>].sum()</span><br><span class="line">monthMoney = totalMoney // months</span><br><span class="line">print(<span class="string">'业务指标III：月均交易金额为'</span>,monthMoney)</span><br></pre></td></tr></table></figure>
+
+<h3 id="人均交易金额"><a href="#人均交易金额" class="headerlink" title="人均交易金额"></a>人均交易金额</h3><ul>
+<li>人均交易金额 = 总交易金额 / 总交易次数<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pct = totalMoney // total</span><br><span class="line">print(<span class="string">'业务指标II：人均交易金额为'</span>,pct)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p><img src="http://wx4.sinaimg.cn/mw690/007FUZQ3ly1g5b3fcoz9kj309d01m74f.jpg" alt="计算结果"></p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://link.hhtjim.com/163/5146554.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+       
+     <!--baidu share-->
+     <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone"></a><a href="#" class="bds_tsina" data-cmd="tsina"></a><a href="#" class="bds_tqq" data-cmd="tqq"></a><a href="#" class="bds_renren" data-cmd="renren"></a><a href="#" class="bds_weixin" data-cmd="weixin"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?'];</script>
+
+    <!--安装来必力-->
+    <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80MzI0OC8xOTc5NA==">
+<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+</script>
+<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+    
+    <!--生成目录-->
+    
+        <div class='side'>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据分析的目的"><span class="toc-number">1.</span> <span class="toc-text">数据分析的目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据分析的基本过程"><span class="toc-number">2.</span> <span class="toc-text">数据分析的基本过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取数据"><span class="toc-number">2.1.</span> <span class="toc-text">获取数据</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#读取excel"><span class="toc-number">2.1.1.</span> <span class="toc-text">读取excel</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据清洗"><span class="toc-number">2.2.</span> <span class="toc-text">数据清洗</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#选择子集"><span class="toc-number">2.2.1.</span> <span class="toc-text">选择子集</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#列名重命名"><span class="toc-number">2.2.2.</span> <span class="toc-text">列名重命名</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#缺失数据处理"><span class="toc-number">2.2.3.</span> <span class="toc-text">缺失数据处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据类型转换"><span class="toc-number">2.2.4.</span> <span class="toc-text">数据类型转换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据排序"><span class="toc-number">2.2.5.</span> <span class="toc-text">数据排序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#异常值统计"><span class="toc-number">2.2.6.</span> <span class="toc-text">异常值统计</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#模型构建"><span class="toc-number">2.3.</span> <span class="toc-text">模型构建</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#计算总交易次数"><span class="toc-number">2.3.1.</span> <span class="toc-text">计算总交易次数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#计算月份"><span class="toc-number">2.3.2.</span> <span class="toc-text">计算月份</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#计算月均交易次数"><span class="toc-number">2.3.3.</span> <span class="toc-text">计算月均交易次数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#月均交易金额"><span class="toc-number">2.4.</span> <span class="toc-text">月均交易金额</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#人均交易金额"><span class="toc-number">2.5.</span> <span class="toc-text">人均交易金额</span></a></li></ol></li></ol>
+        </div>
+    
+
+   
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
