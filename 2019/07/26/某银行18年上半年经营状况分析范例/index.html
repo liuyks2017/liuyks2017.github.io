@@ -1,0 +1,337 @@
+
+<!DOCTYPE html>
+<html lang class="loading">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>某银行18年上半年经营状况分析范例 - 茶靡往事</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="Finara,"> 
+    <meta name="description" content="我特么真是个天才,数据清洗查看数据基本情况，确认是否有异常数据：
+1234567-- 确认是否有金额小于等于零的数据：select count(1) from business_trans_infowhere cfm,"> 
+    <meta name="author" content="Finara"> 
+    <link rel="alternative" href="atom.xml" title="茶靡往事" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+</head>
+</html>
+<body class="loading">
+    <span id="config-title" style="display:none">茶靡往事</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url=""></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">某银行18年上半年经营状况分析范例</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">某银行18年上半年经营状况分析范例</h1>
+        <div class="stuff">
+            <span>七月 26, 2019</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/可视化/">可视化</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/数据/">数据</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/数据分析/">数据分析</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/模型构建/">模型构建</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h3 id="数据清洗"><a href="#数据清洗" class="headerlink" title="数据清洗"></a>数据清洗</h3><p>查看数据基本情况，确认是否有异常数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-- 确认是否有金额小于等于零的数据：</span><br><span class="line">select count(1) from business_trans_info</span><br><span class="line">where cfm_amt &lt;= 0;</span><br><span class="line"></span><br><span class="line">-- 确认数据区间：</span><br><span class="line">select min(trans_date),max(trans_date)</span><br><span class="line">from business_trans_info;</span><br></pre></td></tr></table></figure>
+
+<p>由查询结果可知，源数据中有2527953条数据的交易金额为0，计算时应被剔除；数据日期分布在20180102到20180907之间，由于9月数据不完全，为防止数据干扰也需要额外剔除。</p>
+<h4 id="创建临时表"><a href="#创建临时表" class="headerlink" title="创建临时表"></a>创建临时表</h4><p>根据上述清洗条件重新生成结果集：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">create table business_real</span><br><span class="line">tablespace mcp_tbs</span><br><span class="line">as</span><br><span class="line">select * from business_trans_info</span><br><span class="line">where trans_date between 20180101 and 20180831</span><br><span class="line">and cfm_amt &gt; 0</span><br></pre></td></tr></table></figure>
+
+<p>结果集总记录数：699292</p>
+<h3 id="指标加工"><a href="#指标加工" class="headerlink" title="指标加工"></a>指标加工</h3><h4 id="月均交易笔数"><a href="#月均交易笔数" class="headerlink" title="月均交易笔数"></a>月均交易笔数</h4><p>参照指标计算口径，单人单日的所有交易算作一笔，因此不能直接统计总条数，需要根据交易日期和客户号去重得到总交易笔数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">select count(1) from (</span><br><span class="line">    select </span><br><span class="line">        trans_date,</span><br><span class="line">        client_no</span><br><span class="line">    from business_real</span><br><span class="line">    group by trans_date,client_no</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>总交易笔数：561303</p>
+<p>#####月份数<br>由于经过清洗后的数据范围在1月到8月，所以总月份数为：8</p>
+<h5 id="计算月均交易笔数"><a href="#计算月均交易笔数" class="headerlink" title="计算月均交易笔数"></a>计算月均交易笔数</h5><p>月均交易笔数 = 总交易笔数/总月数，由于数据可能为小数，取值时截取两位小数点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">select round(count(1)/8,2) from (</span><br><span class="line">    select </span><br><span class="line">        trans_date,</span><br><span class="line">        client_no</span><br><span class="line">    from business_real</span><br><span class="line">    group by trans_date,client_no</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>==月均交易笔数：70162.88==</p>
+<h3 id="月均交易金额"><a href="#月均交易金额" class="headerlink" title="月均交易金额"></a>月均交易金额</h3><p>参照指标口径，由于单人单日的多笔交易归为一比，但其并不影响总金额，因此可直接用汇总金额计算指标结果值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select</span><br><span class="line">    round(sum(cfm_amt)/8,2)</span><br><span class="line">from business_real</span><br></pre></td></tr></table></figure>
+
+<p>月均交易金额：6639071791.05</p>
+<h3 id="单笔交易金额"><a href="#单笔交易金额" class="headerlink" title="单笔交易金额"></a>单笔交易金额</h3><p>单笔交易金额 = 总交易金额/总笔数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select</span><br><span class="line">    round(sum(cfm_amt)/561303,2)</span><br><span class="line">from business_real</span><br></pre></td></tr></table></figure>
+
+<p>单笔交易金额：94623.71</p>
+<h3 id="趋势计算"><a href="#趋势计算" class="headerlink" title="趋势计算"></a>趋势计算</h3><p>相较于KPI指标，借助可视化图表可以更清晰的看出数据的变化状况。</p>
+<h4 id="日交易笔数-金额"><a href="#日交易笔数-金额" class="headerlink" title="日交易笔数/金额"></a>日交易笔数/金额</h4><p>按交易日期分组，并以升序排序取出每日的交易笔数，并使用可视化图表展示结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">select </span><br><span class="line">    trans_date</span><br><span class="line">    ,count(1)   交易笔数</span><br><span class="line">    ,sum(cfm_amt) 交易金额</span><br><span class="line">    from (</span><br><span class="line">    select </span><br><span class="line">        trans_date,</span><br><span class="line">        client_no,</span><br><span class="line">        sum(cfm_amt) cfm_amt</span><br><span class="line">    from business_real</span><br><span class="line">    group by trans_date,client_no</span><br><span class="line">)group by trans_date</span><br><span class="line">order by trans_date</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://wx4.sinaimg.cn/mw690/007FUZQ3ly1g5dafensl4j30lw0a63z9.jpg" alt="全行日销售笔数"></p>
+<h4 id="月交易笔数-金额"><a href="#月交易笔数-金额" class="headerlink" title="月交易笔数/金额"></a>月交易笔数/金额</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">select </span><br><span class="line">    substr(trans_date,5,2) 交易月份</span><br><span class="line">    ,count(1)   交易笔数</span><br><span class="line">    ,sum(cfm_amt) 交易金额</span><br><span class="line">    from (</span><br><span class="line">    select </span><br><span class="line">        trans_date,</span><br><span class="line">        client_no,</span><br><span class="line">        sum(cfm_amt) cfm_amt</span><br><span class="line">    from business_real</span><br><span class="line">    group by trans_date,client_no</span><br><span class="line">)group by substr(trans_date,5,2)</span><br><span class="line">order by substr(trans_date,5,2)</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://wx2.sinaimg.cn/mw690/007FUZQ3ly1g5dafjfm4jj30gy09twei.jpg" alt="全行月销售笔数"></p>
+<h4 id="移动平均值"><a href="#移动平均值" class="headerlink" title="移动平均值"></a>移动平均值</h4><p>移动平均值是一个最老也是最流行的技术分析工具。若依次得到一组测定值时，按顺序取一定数量的数据并算得其全部算术平均值，得到的数据就叫做移动平均值。</p>
+<p>为方便计算MA结果，将创建新模型：</p>
+<table>
+<thead>
+<tr>
+<th>字段名称</th>
+<th>字段描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>data_dt</td>
+<td>数据日期</td>
+</tr>
+<tr>
+<td>amt</td>
+<td>销售额</td>
+</tr>
+<tr>
+<td>td1</td>
+<td>t-1销售额</td>
+</tr>
+<tr>
+<td>td2</td>
+<td>t-2销售额</td>
+</tr>
+<tr>
+<td>td3</td>
+<td>t-3销售额</td>
+</tr>
+<tr>
+<td>……</td>
+<td>……</td>
+</tr>
+<tr>
+<td>td59</td>
+<td>t-59销售额</td>
+</tr>
+</tbody></table>
+<h5 id="MA模型加工"><a href="#MA模型加工" class="headerlink" title="MA模型加工"></a>MA模型加工</h5><p>首先计算出每日的销售金额，为方便计算可保存数据到临时表中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">create table ma_day_amt </span><br><span class="line">tablespace mcp_tbs as</span><br><span class="line">select </span><br><span class="line">    trans_date  交易日期</span><br><span class="line">    ,count(1)   交易笔数</span><br><span class="line">    from (</span><br><span class="line">    select </span><br><span class="line">        trans_date,</span><br><span class="line">        client_no</span><br><span class="line">    from business_real</span><br><span class="line">    group by trans_date,client_no</span><br><span class="line">)group by trans_date</span><br><span class="line">order by trans_date</span><br></pre></td></tr></table></figure>
+
+<p>加工MA模型数据，取出每日对应日期下的数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">create table ma_amt tablespace mcp_tbs as</span><br><span class="line">select</span><br><span class="line">    trans_date,</span><br><span class="line">    trans_cnt,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-1	,&apos;yyyymmdd&apos;)),0) td1,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-2	,&apos;yyyymmdd&apos;)),0) td2,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-3	,&apos;yyyymmdd&apos;)),0) td3,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-4	,&apos;yyyymmdd&apos;)),0) td4,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-5	,&apos;yyyymmdd&apos;)),0) td5,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-6	,&apos;yyyymmdd&apos;)),0) td6,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-7	,&apos;yyyymmdd&apos;)),0) td7,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-8	,&apos;yyyymmdd&apos;)),0) td8,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-9	,&apos;yyyymmdd&apos;)),0) td9,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-10	,&apos;yyyymmdd&apos;)),0) td10,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-11	,&apos;yyyymmdd&apos;)),0) td11,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-12	,&apos;yyyymmdd&apos;)),0) td12,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-13	,&apos;yyyymmdd&apos;)),0) td13,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-14	,&apos;yyyymmdd&apos;)),0) td14,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-15	,&apos;yyyymmdd&apos;)),0) td15,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-16	,&apos;yyyymmdd&apos;)),0) td16,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-17	,&apos;yyyymmdd&apos;)),0) td17,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-18	,&apos;yyyymmdd&apos;)),0) td18,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-19	,&apos;yyyymmdd&apos;)),0) td19,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-20	,&apos;yyyymmdd&apos;)),0) td20,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-21	,&apos;yyyymmdd&apos;)),0) td21,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-22	,&apos;yyyymmdd&apos;)),0) td22,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-23	,&apos;yyyymmdd&apos;)),0) td23,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-24	,&apos;yyyymmdd&apos;)),0) td24,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-25	,&apos;yyyymmdd&apos;)),0) td25,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-26	,&apos;yyyymmdd&apos;)),0) td26,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-27	,&apos;yyyymmdd&apos;)),0) td27,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-28	,&apos;yyyymmdd&apos;)),0) td28,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-29	,&apos;yyyymmdd&apos;)),0) td29,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-30	,&apos;yyyymmdd&apos;)),0) td30,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-31	,&apos;yyyymmdd&apos;)),0) td31,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-32	,&apos;yyyymmdd&apos;)),0) td32,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-33	,&apos;yyyymmdd&apos;)),0) td33,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-34	,&apos;yyyymmdd&apos;)),0) td34,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-35	,&apos;yyyymmdd&apos;)),0) td35,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-36	,&apos;yyyymmdd&apos;)),0) td36,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-37	,&apos;yyyymmdd&apos;)),0) td37,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-38	,&apos;yyyymmdd&apos;)),0) td38,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-39	,&apos;yyyymmdd&apos;)),0) td39,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-40	,&apos;yyyymmdd&apos;)),0) td40,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-41	,&apos;yyyymmdd&apos;)),0) td41,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-42	,&apos;yyyymmdd&apos;)),0) td42,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-43	,&apos;yyyymmdd&apos;)),0) td43,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-44	,&apos;yyyymmdd&apos;)),0) td44,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-45	,&apos;yyyymmdd&apos;)),0) td45,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-46	,&apos;yyyymmdd&apos;)),0) td46,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-47	,&apos;yyyymmdd&apos;)),0) td47,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-48	,&apos;yyyymmdd&apos;)),0) td48,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-49	,&apos;yyyymmdd&apos;)),0) td49,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-50	,&apos;yyyymmdd&apos;)),0) td50,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-51	,&apos;yyyymmdd&apos;)),0) td51,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-52	,&apos;yyyymmdd&apos;)),0) td52,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-53	,&apos;yyyymmdd&apos;)),0) td53,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-54	,&apos;yyyymmdd&apos;)),0) td54,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-55	,&apos;yyyymmdd&apos;)),0) td55,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-56	,&apos;yyyymmdd&apos;)),0) td56,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-57	,&apos;yyyymmdd&apos;)),0) td57,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-58	,&apos;yyyymmdd&apos;)),0) td58,</span><br><span class="line">    nvl((select trans_cnt from ma_day_amt where trans_date = to_char(to_date(t1.trans_date,&apos;yyyymmdd&apos;)-59	,&apos;yyyymmdd&apos;)),0) td59</span><br><span class="line">from ma_day_amt t1</span><br></pre></td></tr></table></figure>
+
+<h5 id="计算日均线指标MA5"><a href="#计算日均线指标MA5" class="headerlink" title="计算日均线指标MA5"></a>计算日均线指标MA5</h5><p>根据已经加工好的模型表，可以很方便的取出对应天数内的历史数据，根据MA计算公式可以得知，MA5即为近5天内的平均值，因此可直接通过SQL查处每天对应的平均值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">select </span><br><span class="line">    trans_date  交易日期,</span><br><span class="line">    round((trans_cnt+td1+td2+td3+td4)/5,0)   MA5</span><br><span class="line">from day_amt</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://wx1.sinaimg.cn/mw690/007FUZQ3ly1g5dae60f2qj30gy09xjrs.jpg" alt="MA5"></p>
+<h5 id="计算季均线指标MA30"><a href="#计算季均线指标MA30" class="headerlink" title="计算季均线指标MA30"></a>计算季均线指标MA30</h5><p>同理计算出MA30的数据集：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">select </span><br><span class="line">    trans_date  交易日期,</span><br><span class="line">    round((trans_cnt+td1+td2+td3+td4+td5+td6+td7+td8+td9+td10+td11+td12+td13+td14+td15+td16+td17+td18+td19+td20+td21+td22+td23+td24+td25+td26+td27+td28+td29)/30,0)   MA30</span><br><span class="line">from day_amt</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://wx3.sinaimg.cn/mw690/007FUZQ3ly1g5daeawemzj30h20a5gls.jpg" alt="MA30"></p>
+<h5 id="计算季均线指标MA60"><a href="#计算季均线指标MA60" class="headerlink" title="计算季均线指标MA60"></a>计算季均线指标MA60</h5><p>同理计算出MA60的数据集：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">select </span><br><span class="line">    trans_date  交易日期,</span><br><span class="line">    round((trans_cnt+td1+td2+td3+td4+td5+td6+td7+td8+td9+td10+td11+td12+td13+td14+td15+td16+td17+td18+td19+td20+td21+td22+td23+td24+td25+td26+td27+td28+td29+30+31+32+33+34+35+36+37+38+39+40+41+42+43+44+45+46+47+48+49+50+51+52+53+54+55+56+57+58+59)/60 ,0)  MA60</span><br><span class="line">from day_amt</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://wx2.sinaimg.cn/mw690/007FUZQ3ly1g5daee2rtbj30gs0aajri.jpg" alt="MA60"></p>
+<h5 id="计算季均线指标MA120"><a href="#计算季均线指标MA120" class="headerlink" title="计算季均线指标MA120"></a>计算季均线指标MA120</h5><p>同理计算出MA120的数据集：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">select </span><br><span class="line">    trans_date  交易日期,</span><br><span class="line">    round((trans_cnt+td1+td2+td3+td4+td5+td6+td7+td8+td9+td10+td11+td12+td13+td14+td15+td16+td17+td18+td19+td20+td21+td22+td23+td24+td25+td26+td27+td28+td29+30+31+32+33+34+35+36+37+38+39+40+41+42+43+44+45+46+47+48+49+50+51+52+53+54+55+56+57+58+59+60+61+62+63+64+65+66+67+68+69+70+71+72+73+74+75+76+77+78+79+80+81+82+83+84+85+86+87+88+89+90+91+92+93+94+95+96+97+98+99+100+101+102+103+104+105+106+107+108+109+110+111+112+113+114+115+116+117+118+119)/120,0)   MA120</span><br><span class="line">from day_amt</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://wx3.sinaimg.cn/mw690/007FUZQ3ly1g5daehd1tpj30h10a50sv.jpg" alt="MA120"></p>
+<h4 id="机构业绩状况"><a href="#机构业绩状况" class="headerlink" title="机构业绩状况"></a>机构业绩状况</h4><p>从总体经营状况可以看出全行的发展趋势，而从机构角度入手可以体察各经营单位的销售状况，并及时调整方向。筛选数据并创建临时表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">create table business_branch_info </span><br><span class="line">tablespace mcp_tbs as</span><br><span class="line">select</span><br><span class="line">    thd_bank,replace(replace(thd_bank_name,&apos;分行&apos;,&apos;&apos;),&apos;汇总&apos;,&apos;&apos;) thd_bank_name,</span><br><span class="line">    sum(cnt) cnt,</span><br><span class="line">    sum(amt) amt,</span><br><span class="line">    sum(case when prd_type_name = &apos;理财&apos; then cnt else 0 end) fnc_cnt,</span><br><span class="line">    sum(case when prd_type_name = &apos;理财&apos; then amt else 0 end) fnc_amt,</span><br><span class="line">    sum(case when prd_type_name = &apos;基金&apos; then cnt else 0 end) ens_cnt,</span><br><span class="line">    sum(case when prd_type_name = &apos;基金&apos; then amt else 0 end) ens_amt,</span><br><span class="line">    sum(case when prd_type_name = &apos;信托&apos; then cnt else 0 end) crd_cnt,</span><br><span class="line">    sum(case when prd_type_name = &apos;信托&apos; then amt else 0 end) crd_amt</span><br><span class="line">from (</span><br><span class="line">    select</span><br><span class="line">        t2.thd_bank,</span><br><span class="line">        t2.thd_bank_name,</span><br><span class="line">        prd_type_name,</span><br><span class="line">        count(1) as cnt,</span><br><span class="line">        sum(cfm_amt) as amt</span><br><span class="line">    from business_real t1</span><br><span class="line">    left join m_pub_org_camp_stt t2</span><br><span class="line">    on t1.open_branch = t2.net_bank</span><br><span class="line">    and t2.data_dt = &apos;20190228&apos;</span><br><span class="line">    group by t2.thd_bank,t2.thd_bank_name</span><br><span class="line">)</span><br><span class="line">where thd_bank not in (&apos;41950A&apos;,&apos;41960A&apos;,&apos;41970A&apos;)</span><br><span class="line">group by thd_bank,replace(replace(thd_bank_name,&apos;分行&apos;,&apos;&apos;),&apos;汇总&apos;,&apos;&apos;)</span><br></pre></td></tr></table></figure>
+
+<h5 id="绘制机构销售状况"><a href="#绘制机构销售状况" class="headerlink" title="绘制机构销售状况"></a>绘制机构销售状况</h5><p>为方便查看各个地市的销售状况，采用多彩地图的形式，通过区间枚举为区域添加颜色，便于读者获取信息。其中数据只筛选了销售笔数，由高到低分别为：绿色、蓝色、黄色、红色。</p>
+<p><img src="http://wx1.sinaimg.cn/mw690/007FUZQ3ly1g5dae28gpvj30ez0edq3w.jpg" alt="经营机构销售状况分析"></p>
+<h5 id="绘制机构产品结构状况"><a href="#绘制机构产品结构状况" class="headerlink" title="绘制机构产品结构状况"></a>绘制机构产品结构状况</h5><p><img src="http://wx1.sinaimg.cn/mw690/007FUZQ3ly1g5dbhhkihsj30rh0act93.jpg" alt="机构产品销售状况"></p>
+<h4 id="分析指标分层"><a href="#分析指标分层" class="headerlink" title="分析指标分层"></a>分析指标分层</h4><p>机构和汇总数据从经营单位的维度分析业务的进展状况，但对于当前的零售产业趋势，需要对当前的用户体系进行分群和分层，不同类的客户群体具有不同的兴趣范围，不同分层的客户也有不同的消费能力。因此在产品维度的基础上增加两个客群粒度：</p>
+<ul>
+<li>性别</li>
+<li>年龄</li>
+</ul>
+<p>在客户分群的基础上增加消费能力分层：</p>
+<ul>
+<li>[0,500)</li>
+<li>[500,5000)</li>
+<li>[5000,10000)</li>
+<li>[10000,30000)</li>
+<li>[30000,50000)</li>
+<li>[50000,100000)</li>
+<li>[100000,+∞)</li>
+</ul>
+<p>分析数据，性别和年龄可以简单的分析出消费群体的画像属性，数据也均可以从证件号中提取。根据公式，身份证号的7-10位为出生年份,第17位为性别属性，奇数为男，偶数为女，可由此构建分群模型：</p>
+<table>
+<thead>
+<tr>
+<th>字段名称</th>
+<th>字段描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sex_group</td>
+<td>性别分类</td>
+</tr>
+<tr>
+<td>age_group</td>
+<td>年龄分类</td>
+</tr>
+<tr>
+<td>trans_level</td>
+<td>消费分层</td>
+</tr>
+<tr>
+<td>trans_cnt</td>
+<td>销售笔数</td>
+</tr>
+</tbody></table>
+<p>首先分析数据，确认证件号类型是否均为身份证：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select distinct length(global_id) from business_real</span><br></pre></td></tr></table></figure>
+
+<p>由结果得知，证件长度有5、7、8、15、18等多种，为防止错误数据，故在汇总模型结果的时候需要将18之外的证件号过滤掉：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">-- 由于测试数据中的证件号被脱敏，因此无法直接从数据中获取，故从生产环境中提取真实数据创建结果集</span><br><span class="line"></span><br><span class="line">create table business_group_trans(</span><br><span class="line">    sex_group varchar2(20),</span><br><span class="line">    age_group varchar2(20),</span><br><span class="line">    trans_level varchar2(20),</span><br><span class="line">    trans_amt numeric,</span><br><span class="line">) tablespace mcp_tbs</span><br><span class="line">distribute by hash( sex_group,age_group,trans_level)</span><br><span class="line">;</span><br><span class="line"></span><br><span class="line">-- 校验数据范围，查看年龄区间</span><br><span class="line">select 2019-min(substr(global_id,7,4)) from business_real;</span><br><span class="line"></span><br><span class="line">-- 加工结果集数据()</span><br><span class="line">selec</span><br><span class="line">    --最小年龄为12岁，所以去掉婴儿组</span><br><span class="line">    case</span><br><span class="line">        when 2019-substr(global_id,7,4) between 7 and 12 then &apos;少儿&apos;</span><br><span class="line">        when 2019-substr(global_id,7,4) between 13 and 17 then &apos;青少年&apos;</span><br><span class="line">        when 2019-substr(global_id,7,4) between 18 and 45 then &apos;青年&apos;</span><br><span class="line">        when 2019-substr(global_id,7,4) between 45 and 69 then &apos;中年&apos;</span><br><span class="line">        when 2019-substr(global_id,7,4) &gt; 69 then &apos;老年&apos;</span><br><span class="line">    end as age_group,</span><br><span class="line">    case mod(substr(global_id,17,1),2)</span><br><span class="line">        when 1 then &apos;男&apos;</span><br><span class="line">    else &apos;女&apos;</span><br><span class="line">    end as sex_group,</span><br><span class="line">    case</span><br><span class="line">        -- 金额有小数，取整规避数据缺失问题</span><br><span class="line">        when round(cfm_amt,0) between 0 and 499 then &apos;1:0(含)-500&apos;</span><br><span class="line">        when round(cfm_amt,0) between 500 and 4999 then &apos;2:500(含)-4999&apos;</span><br><span class="line">        when round(cfm_amt,0) between 5000 and 9999 then &apos;3:5000(含)-9999&apos;</span><br><span class="line">        when round(cfm_amt,0) between 10000 and 29999 then &apos;4:10000(含)-29999&apos;</span><br><span class="line">        when round(cfm_amt,0) between 30000 and 49999 then &apos;5:30000(含)-49999&apos;</span><br><span class="line">        when round(cfm_amt,0) between 50000 and 99999 then &apos;6:50000(含)-99999&apos;</span><br><span class="line">        when round(cfm_amt,0) &gt;= 100000 then &apos;7:100000(含)及以上&apos;</span><br><span class="line">    end as trans_level,</span><br><span class="line">    sum(1) trans_cnt</span><br><span class="line">from pma_it.pma_f_ifm_client_all</span><br><span class="line">where stat_date = &apos;20180630&apos;</span><br><span class="line">and trans_date between &apos;20180101&apos; and &apos;20180630&apos;</span><br><span class="line">and cfm_amt&gt;0</span><br><span class="line">and length(global_id) = 18</span><br><span class="line">group by</span><br><span class="line">case</span><br><span class="line">        when 2019-substr(global_id,7,4) between 7 and 12 then &apos;少儿&apos;</span><br><span class="line">        when 2019-substr(global_id,7,4) between 13 and 17 then &apos;青少年&apos;</span><br><span class="line">        when 2019-substr(global_id,7,4) between 18 and 45 then &apos;青年&apos;</span><br><span class="line">        when 2019-substr(global_id,7,4) between 45 and 69 then &apos;中年&apos;</span><br><span class="line">        when 2019-substr(global_id,7,4) &gt; 69 then &apos;老年&apos;</span><br><span class="line">    end,</span><br><span class="line">    case mod(substr(global_id,17,1),2)</span><br><span class="line">        when 1 then &apos;男&apos;</span><br><span class="line">    else &apos;女&apos;</span><br><span class="line">    end,</span><br><span class="line">    case</span><br><span class="line">        -- 金额有小数，取整规避数据缺失问题</span><br><span class="line">        when round(cfm_amt,0) between 0 and 499 then &apos;1:0(含)-500&apos;</span><br><span class="line">        when round(cfm_amt,0) between 500 and 4999 then &apos;2:500(含)-4999&apos;</span><br><span class="line">        when round(cfm_amt,0) between 5000 and 9999 then &apos;3:5000(含)-9999&apos;</span><br><span class="line">        when round(cfm_amt,0) between 10000 and 29999 then &apos;4:10000(含)-29999&apos;</span><br><span class="line">        when round(cfm_amt,0) between 30000 and 49999 then &apos;5:30000(含)-49999&apos;</span><br><span class="line">        when round(cfm_amt,0) between 50000 and 99999 then &apos;6:50000(含)-99999&apos;</span><br><span class="line">        when round(cfm_amt,0) &gt;= 100000 then &apos;7:100000(含)及以上&apos;</span><br><span class="line">    end</span><br></pre></td></tr></table></figure>
+
+<h5 id="绘制性别分群状况"><a href="#绘制性别分群状况" class="headerlink" title="绘制性别分群状况"></a>绘制性别分群状况</h5><p>通过性别区分每个性别的交易数占比，可以清晰看出主要的交易人群属于哪一类。</p>
+<p><img src="http://wx4.sinaimg.cn/mw690/007FUZQ3ly1g5dafrtuxfj30e40aeq31.jpg" alt="性别占比状况"></p>
+<h5 id="绘制年龄分群状况"><a href="#绘制年龄分群状况" class="headerlink" title="绘制年龄分群状况"></a>绘制年龄分群状况</h5><p>不同年龄的客户有着不同的消费能力，面对不同年龄的客户，产品的需求点也存在差异。通过年龄来区分各个年龄群体的交易状况，可以针对性的开展营销活动。</p>
+<p><img src="http://wx3.sinaimg.cn/mw690/007FUZQ3ly1g5daf803d7j30f70a574g.jpg" alt="年龄分群状况"></p>
+<h5 id="绘制消费分层状况"><a href="#绘制消费分层状况" class="headerlink" title="绘制消费分层状况"></a>绘制消费分层状况</h5><p>年龄和性别可以带来主要核心消费客户的画像标签，而购买力则可以展现出客户的需求点，也一定程度反显了各类财富产品的营销状况，方便调整产品结构。</p>
+<p><img src="http://wx4.sinaimg.cn/mw690/007FUZQ3ly1g5dafo3og1j30hp0a9glv.jpg" alt="消费力分层状况"></p>
+<h5 id="绘制组合标签销售状况"><a href="#绘制组合标签销售状况" class="headerlink" title="绘制组合标签销售状况"></a>绘制组合标签销售状况</h5><p>单个用户标签可以突出展示粒度下的销售情况，使用多个用户标签可以更下细致的分析同一个标签下的分类状况，如使用性别+年龄+购买力作为组合指标就可以看到更加详细的销售情况，而处于金字塔顶端的标签也是最需要重点关注的客群。</p>
+<p><img src="http://wx3.sinaimg.cn/mw690/007FUZQ3ly1g5daesuwv1j30q20f40uy.jpg" alt="组合标签分析"></p>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>客户的主要消费群体为24-45的女性，这个年龄的女性婚姻处于开始阶段和稳定阶段，作为理财的主要角色，她们大多选择通过购买理财产品来储存财产并增值，且如果收益可观，愿意购买长期的大额理财。</p>
+<p>由各地市的产品销售状况也可以得知，理财和基金的销售情况基本持平，可以说明客户在消费的过程中有一定的风险承担意识，愿意选择更高收益的理财产品，因此高收益的短期理财产品或者货币基金将比较受欢迎。</p>
+<p>在营销过程中也可通过个性化制定适合女性的营销活动，例如亲子活动、社区活动等方式吸引客流，并通过礼品的形式留存提升客户的办理意愿，并通过适量的高额理财产品拿下。也可以通过限量供应或限定销售等方式激发购买意愿，以客户品质等门槛促进客户存款转化等，实现交叉营销。</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://link.hhtjim.com/163/5146554.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+       
+     <!--baidu share-->
+     <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone"></a><a href="#" class="bds_tsina" data-cmd="tsina"></a><a href="#" class="bds_tqq" data-cmd="tqq"></a><a href="#" class="bds_renren" data-cmd="renren"></a><a href="#" class="bds_weixin" data-cmd="weixin"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?'];</script>
+
+    <!--安装来必力-->
+    <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80MzI0OC8xOTc5NA==">
+<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+</script>
+<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+    
+    <!--生成目录-->
+    
+        <div class='side'>
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据清洗"><span class="toc-number">1.</span> <span class="toc-text">数据清洗</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#创建临时表"><span class="toc-number">1.1.</span> <span class="toc-text">创建临时表</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#指标加工"><span class="toc-number">2.</span> <span class="toc-text">指标加工</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#月均交易笔数"><span class="toc-number">2.1.</span> <span class="toc-text">月均交易笔数</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#计算月均交易笔数"><span class="toc-number">2.1.1.</span> <span class="toc-text">计算月均交易笔数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#月均交易金额"><span class="toc-number">3.</span> <span class="toc-text">月均交易金额</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#单笔交易金额"><span class="toc-number">4.</span> <span class="toc-text">单笔交易金额</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#趋势计算"><span class="toc-number">5.</span> <span class="toc-text">趋势计算</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#日交易笔数-金额"><span class="toc-number">5.1.</span> <span class="toc-text">日交易笔数/金额</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#月交易笔数-金额"><span class="toc-number">5.2.</span> <span class="toc-text">月交易笔数/金额</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#移动平均值"><span class="toc-number">5.3.</span> <span class="toc-text">移动平均值</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#MA模型加工"><span class="toc-number">5.3.1.</span> <span class="toc-text">MA模型加工</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#计算日均线指标MA5"><span class="toc-number">5.3.2.</span> <span class="toc-text">计算日均线指标MA5</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#计算季均线指标MA30"><span class="toc-number">5.3.3.</span> <span class="toc-text">计算季均线指标MA30</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#计算季均线指标MA60"><span class="toc-number">5.3.4.</span> <span class="toc-text">计算季均线指标MA60</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#计算季均线指标MA120"><span class="toc-number">5.3.5.</span> <span class="toc-text">计算季均线指标MA120</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#机构业绩状况"><span class="toc-number">5.4.</span> <span class="toc-text">机构业绩状况</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#绘制机构销售状况"><span class="toc-number">5.4.1.</span> <span class="toc-text">绘制机构销售状况</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#绘制机构产品结构状况"><span class="toc-number">5.4.2.</span> <span class="toc-text">绘制机构产品结构状况</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分析指标分层"><span class="toc-number">5.5.</span> <span class="toc-text">分析指标分层</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#绘制性别分群状况"><span class="toc-number">5.5.1.</span> <span class="toc-text">绘制性别分群状况</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#绘制年龄分群状况"><span class="toc-number">5.5.2.</span> <span class="toc-text">绘制年龄分群状况</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#绘制消费分层状况"><span class="toc-number">5.5.3.</span> <span class="toc-text">绘制消费分层状况</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#绘制组合标签销售状况"><span class="toc-number">5.5.4.</span> <span class="toc-text">绘制组合标签销售状况</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结论"><span class="toc-number">6.</span> <span class="toc-text">结论</span></a></li></ol>
+        </div>
+    
+
+   
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
