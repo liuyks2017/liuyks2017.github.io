@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+<html lang class="loading">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>大数据可视化大屏图表设计经验，教给你 - 茶靡往事</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="Finara,"> 
+    <meta name="description" content="我特么真是个天才,
+现在越来越多的地方会需要用到可视化图表大屏，但是大家可能对数据可视化的图表设计经验少一些，所以这篇文章就挖掘一下图表的细节表现，分享我曾经遇到过的坑和对图表设计的理解。
+
+图表设计图表设计概念图表,"> 
+    <meta name="author" content="Finara"> 
+    <link rel="alternative" href="atom.xml" title="茶靡往事" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+</head>
+</html>
+<body class="loading">
+    <span id="config-title" style="display:none">茶靡往事</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url=""></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">大数据可视化大屏图表设计经验，教给你</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">大数据可视化大屏图表设计经验，教给你</h1>
+        <div class="stuff">
+            <span>七月 29, 2019</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/可视化/">可视化</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/设计/">设计</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/选择/">选择</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <blockquote>
+<p>现在越来越多的地方会需要用到可视化图表大屏，但是大家可能对数据可视化的图表设计经验少一些，所以这篇文章就挖掘一下图表的细节表现，分享我曾经遇到过的坑和对图表设计的理解。</p>
+</blockquote>
+<h2 id="图表设计"><a href="#图表设计" class="headerlink" title="图表设计"></a>图表设计</h2><h3 id="图表设计概念"><a href="#图表设计概念" class="headerlink" title="图表设计概念"></a>图表设计概念</h3><p>图表设计是数据可视化的一个分支领域，是对数据进行二次加工，用统计图表的方式进行呈现，也是数据可视化的核心表现，图表设计既要保证图表本身数据清晰准确、直观易懂，又要在找准用户关注的核心内容进行适当的突显，帮助用户通过数据进行决策。</p>
+<p>下面分析三种常用的可视化图表设计：</p>
+<h4 id="折线图"><a href="#折线图" class="headerlink" title="折线图"></a>折线图</h4><p><img src="http://wx4.sinaimg.cn/mw690/007FUZQ3ly1g5gjzdzvorj30u00byaam.jpg" alt="image"></p>
+<p>折线图常用于表示数据的变化和趋势，坐标轴的不同对折线的变化幅度有很大的影响。</p>
+<p><strong>左图坐标轴设定的太低，折线变化过于陡峭，图中数值区间为（10-34）数据可视化的表现过于夸大了折线变化的趋势。</strong></p>
+<p><strong>右图坐标轴的数值设定的太高，则折线变化过于平缓，无法清晰的表现折线的变化。</strong></p>
+<p><img src="http://wx4.sinaimg.cn/mw690/007FUZQ3ly1g5gjyznbf3j30u00byq3c.jpg" alt="image"></p>
+<p>合理的折线图应当占据图表的三分之二的位置，图表的X轴数值范围应根据折线的数值增减变化而变化，这需要跟前端小哥哥小姐姐说明，做成动态计算。</p>
+<p><img src="http://wx3.sinaimg.cn/mw690/007FUZQ3ly1g5gjyk6bqbj30u00bydge.jpg" alt="image"></p>
+<p>折线图的折线粗细要合理，过细的折线会降低数据表现，过粗的折线会损失折线中的数据波动细节，视觉上较难精准找到折线点的相应数值！我通常用两个像素的线，看起来比较合适！</p>
+<p><img src="http://wx3.sinaimg.cn/mw690/007FUZQ3ly1g5gjygv07uj30u00bymxx.jpg" alt="image"></p>
+<p>右图刻度线颜色过重，影响图表数据的表现，零基线跟图表内的刻度线对比不够明显，整体很乱。零基线是强调起始位置的，一般要比图表内的线颜色凸出一些。</p>
+<h4 id="条形图-柱状图"><a href="#条形图-柱状图" class="headerlink" title="条形图/柱状图"></a>条形图/柱状图</h4><p><img src="http://wx4.sinaimg.cn/mw690/007FUZQ3ly1g5gjya0sjjj30u00by74u.jpg" alt="image"></p>
+<p>理想很丰满，现实很骨感。这个案例是我之前在工作中遇到的问题，数据进来后，被吓到了，问题的原因是没有跟前端小哥姐沟通好，他们把X轴写死，导致出现这种问题，其实应该情况要把这些图表的取值范围写成动态计算的。例如，以现在数值范围为例，数据的最高值为18，X轴最高数值应该为25，当数据又上升一定的高度后，X轴再上升到相应的数值高度，这样避免了如右图的问题。</p>
+<p><img src="http://wx2.sinaimg.cn/mw690/007FUZQ3ly1g5gjynyk8hj30u00byaam.jpg" alt="image"></p>
+<p>坐标轴的标签文字最好能水平排列，当X轴标签文字过多时，不建议倾斜排列、上下排列、换行排列文字多了这样的展示大大降低了阅读性！下图给出两个解决方案，大大提高标签文字的阅读性！</p>
+<p><img src="http://wx1.sinaimg.cn/mw690/007FUZQ3ly1g5gjz5pj15j30u00by750.jpg" alt="image"></p>
+<p>解决方案</p>
+<p><img src="http://wx3.sinaimg.cn/mw690/007FUZQ3ly1g5gjzit9tbj30u00bygmb.jpg" alt="image"></p>
+<p>柱子之间过于分散就会失去数据之间的关联性，过密就会变得数据之间没有独立性更不利于舒适阅读。</p>
+<p><strong>当柱子为n时，柱子直接的距离建议与n相差不要太大，柱子靠边的距离，最好是柱子之间的一半的距离，这样视觉上最为舒适。</strong></p>
+<h4 id="饼图"><a href="#饼图" class="headerlink" title="饼图"></a>饼图</h4><p><img src="http://wx3.sinaimg.cn/mw690/007FUZQ3ly1g5gjzxoyctj30u00bymxn.jpg" alt="image"></p>
+<p>左1图，不建议在饼图内与百分比数值一起显示，饼图本身的形状和大小，文字过多时容易溢出，如果出现一个2%一个1%，就很难辨别图形指向，这样也就失去了数据可视化的意义，PPT通常有这样的设计样式，因为是个死图。左3图，人的阅读习惯是从左到右，从上到下，所以数据从大到小排列，更有助于阅读，图形也更具美感！</p>
+<p><img src="http://wx2.sinaimg.cn/mw690/007FUZQ3ly1g5gjyd97j6j30u00bymxi.jpg" alt="image"></p>
+<p>当饼图为检出率，或者一些重要信息检测的重点关注数据，就不建议大小数据顺时针排列，左1图这种情况一般很少出现，因为关注的是检出数值，展示未检出数据实为鸡肋，可能是极少情况的需要吧！</p>
+<p>右图对于类似检出率的数据最为合适，直观清晰，没有无用数据干扰！</p>
+<p><img src="http://wx1.sinaimg.cn/mw690/007FUZQ3ly1g5gjzaon3hj30u00bymxo.jpg" alt="image"></p>
+<p>当饼图的标签维度过多时，就不适合把数据围绕饼图一周展示，会很乱，不易阅读，解决方案如右图！</p>
+<h3 id="图表分类图"><a href="#图表分类图" class="headerlink" title="图表分类图"></a>图表分类图</h3><p>分享一张图表分类大全，保存起来，设计数据可视化产品，会有重要参考价值！</p>
+<p><img src="http://wx3.sinaimg.cn/mw690/007FUZQ3ly1g5gjzts0gjj30u00kftaq.jpg" alt="image"></p>
+<p>这张图由设计师Abela对图表的各种特征进行了大致的概括总结。</p>
+<hr>
+
+<p>转载自<a href="https://upload-images.jianshu.io/upload_images/3422791-0055716dfab1a544?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp" target="_blank" rel="noopener">大数据可视化大屏图表设计经验，教给你！</a></p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://link.hhtjim.com/163/5146554.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+       
+     <!--baidu share-->
+     <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone"></a><a href="#" class="bds_tsina" data-cmd="tsina"></a><a href="#" class="bds_tqq" data-cmd="tqq"></a><a href="#" class="bds_renren" data-cmd="renren"></a><a href="#" class="bds_weixin" data-cmd="weixin"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?'];</script>
+
+    <!--安装来必力-->
+    <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80MzI0OC8xOTc5NA==">
+<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+</script>
+<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+    
+    <!--生成目录-->
+    
+        <div class='side'>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#图表设计"><span class="toc-number">1.</span> <span class="toc-text">图表设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#图表设计概念"><span class="toc-number">1.1.</span> <span class="toc-text">图表设计概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#折线图"><span class="toc-number">1.1.1.</span> <span class="toc-text">折线图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#条形图-柱状图"><span class="toc-number">1.1.2.</span> <span class="toc-text">条形图/柱状图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#饼图"><span class="toc-number">1.1.3.</span> <span class="toc-text">饼图</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#图表分类图"><span class="toc-number">1.2.</span> <span class="toc-text">图表分类图</span></a></li></ol></li></ol>
+        </div>
+    
+
+   
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
