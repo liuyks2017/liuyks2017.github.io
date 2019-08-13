@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html lang class="loading">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>箱型图的绘制与分析 - 茶靡往事</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="Finara,"> 
+    <meta name="description" content="我特么真是个天才,
+在互联网数据分析的过程中，我们经常需要分析一组数据的离散分布情况以及分析这组数据的最大值、最小值、平均数、四分位数。
+
+
+有时我们会有如下应用场景：假设一款内容型产品，想要对比分析用户一周内对不同,"> 
+    <meta name="author" content="Finara"> 
+    <link rel="alternative" href="atom.xml" title="茶靡往事" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+</head>
+</html>
+<body class="loading">
+    <span id="config-title" style="display:none">茶靡往事</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url=""></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">箱型图的绘制与分析</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">箱型图的绘制与分析</h1>
+        <div class="stuff">
+            <span>八月 13, 2019</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/可视化/">可视化</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/数据分析/">数据分析</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <blockquote>
+<p>在互联网数据分析的过程中，我们经常需要分析一组数据的离散分布情况以及分析这组数据的最大值、最小值、平均数、四分位数。</p>
+</blockquote>
+<blockquote>
+<p>有时我们会有如下应用场景：假设一款内容型产品，想要对比分析用户一周内对不同类型内容的打开情况。想要查看某个类型的内容一周内打开最多的用户是打开了几个，打开最少的用户是打开了几个，用户平均打开了几个，大多数的用户是看了几个内容。</p>
+</blockquote>
+<blockquote>
+<p>那么箱型图是一个能够很好反映这些数据离散的图表，在学习绘制箱形图前先介绍一下四分位数。</p>
+</blockquote>
+<h2 id="分位数"><a href="#分位数" class="headerlink" title="分位数"></a>分位数</h2><blockquote>
+<p>分位数，统计学的定义是指将一个随机变量的概率分布范围分为几个等份的数值点，通俗点说就是将一组数据按数量均分的点。比如二分位数就是指将一组数据均分为两等分的点，也被称作中位数。<br>那么顾名思义四分位数就是将一组数据均分为四等分的点，一组数据被分为四等分需要有三个点，分别被称为：第一四分位数（下四分位数）、第二四分位数（中位数）、第三四分位数（上四分位数）。<br>下四分位数等于这组数据中从小到大第25%的数字，上四分位数等于这组数据中从小到大第75%的数字。下四分位数与上四分位数之间的差距被称为四分位距，箱形图中的异常值就需要通过四分位距计算出来。</p>
+</blockquote>
+<ol>
+<li>首先计算这列数的个数（n），然后分别算出（n+1）/4和3（n+1）/4。</li>
+<li>然后根据计算出来的位置点计算到左右两个数值的折算数值，由此当做四分位数。</li>
+</ol>
+<h2 id="箱型图"><a href="#箱型图" class="headerlink" title="箱型图"></a>箱型图</h2><blockquote>
+<p>箱形图因为形状类似一个箱子所以被称为箱形图，通过箱形图可以很直观的读出一组数据的最大值、最小值、中位数、上四分位数、下四分位数、异常值，甚至有的箱形图还能读出平均值。</p>
+</blockquote>
+<h3 id="异常值监测"><a href="#异常值监测" class="headerlink" title="异常值监测"></a>异常值监测</h3><p>数据挖掘工作中的第一步就是异常值检测，异常值的存在会影响实验结果。异常值是指样本中的个别值，也称为离群点，其数值明显偏离其余的观测值。常用检测方法3σσ原则和箱型图。其中，3σσ原则只适用服从正态分布的数据。在3σσ原则下，异常值被定义为观察值和平均值的偏差超过3倍标准差的值。P(|x−μ|&gt;3σ)≤0.003P(|x−μ|&gt;3σ)≤0.003，在正太分布假设下，大于3σ的值出现的概率小于0.003，属于小概率事件，故可认定其为异常值。</p>
+<ul>
+<li>3σ原则对数据分布有一定限制，而箱型图并不限制数据分布，只是直观表现出数据分布的本来面貌。其识别异常值的结果比较客观，而且判断标准以四分位数和四分位间距为标准，多达25%的数据可以变得任意远而不会扰动这个标准，鲁棒性更强，所以更受大家亲睐。</li>
+<li>箱型图识别异常值标准: 异常值被定义为大于QU+1.5IQRQU+1.5IQR或小于QL−1.5IQRQL−1.5IQR的值。QUQU是上四分位数，表示全部观察值中有1/4的数据比他大，QLQL是下四分位数，表示全部数据中有1/4的数据比他小。IQR是四分位间距，是QUQU和QLQL的差，其间包含了观察值的一半。 </li>
+</ul>
+<p><img src="http://wx3.sinaimg.cn/mw690/007FUZQ3ly1g5y3gc6v3sj307g052wee.jpg" alt></p>
+<h3 id="绘制箱形图："><a href="#绘制箱形图：" class="headerlink" title="绘制箱形图："></a>绘制箱形图：</h3><ol>
+<li>首先需要得到这组数据的：最大值、最小值、平均值、中位数、四分位数。</li>
+<li>其次分别在坐标轴上根据最大值、上四分位数、中位数、下四分位数、最小值的数值画出5条线段。连接上四分位数与下四分位数两端形成一个矩形，而后分别由矩形的上下端作垂线连接到上边缘（最大值）与下边缘（最小值）。</li>
+<li>接下来通过上面提到的四分位距计算温和异常值和极端异常值的范围（将上四分位数用Q3表示、下四分位数用Q1表示、四分位距用IQR表示）。温和异常值的范围：上限为Q3+1.5<em>IQR，下限为Q1-1.5</em>IQR，处在这个范围内的值为温和异常值，一般用圆圈表示；极端异常值的范围：上限为Q3+3<em>IQR，下限为Q1-3</em>IQR，处在这个范围内的值为极端异常值，一般用星号表示。（之所以要画出异常值的范围是因为对于非正太分布的数据来说，方差、标准差很容易被异常值所影响，比如对于100个人的年收入这组数据来说，如果里面加入了马云这个异常值，这个数据就不具有代表性了。）</li>
+</ol>
+<blockquote>
+<p>总而言之，箱形图可以很直观的分析数据的离散分布情况，上四分位数与下四分位数的距离越小说明越集中，否则说明越分散，对于上下边缘来说是一样的。然后通过中位数偏向于上四分位数还是下四分位数可以来分析数据分布的偏向。箱形图还有一个优点是相对受异常值的影响比较小，能够准确稳定地描绘出数据的离散分布情况，会比较有利于数据的清洗。</p>
+</blockquote>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='https://music.163.com/song/media/outer/url?id=536622304.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+       
+     <!--baidu share-->
+     <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone"></a><a href="#" class="bds_tsina" data-cmd="tsina"></a><a href="#" class="bds_tqq" data-cmd="tqq"></a><a href="#" class="bds_renren" data-cmd="renren"></a><a href="#" class="bds_weixin" data-cmd="weixin"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?'];</script>
+
+    <!--安装来必力-->
+    <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80MzI0OC8xOTc5NA==">
+<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+</script>
+<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+    
+    <!--生成目录-->
+    
+        <div class='side'>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#分位数"><span class="toc-number">1.</span> <span class="toc-text">分位数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#箱型图"><span class="toc-number">2.</span> <span class="toc-text">箱型图</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#异常值监测"><span class="toc-number">2.1.</span> <span class="toc-text">异常值监测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#绘制箱形图："><span class="toc-number">2.2.</span> <span class="toc-text">绘制箱形图：</span></a></li></ol></li></ol>
+        </div>
+    
+
+   
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
