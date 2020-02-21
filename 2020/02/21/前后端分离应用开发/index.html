@@ -1,0 +1,260 @@
+
+<!DOCTYPE html>
+<html lang class="loading">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>从零开始-前后端分离应用开发(2) - 茶靡往事</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="Finara,"> 
+    <meta name="description" content="我特么真是个天才,
+目前已经实现了前后端环境的部署，为保证后续开发工作的顺利进行，还需继续调整配置。
+
+前后端分离项目使用vue.js作为前端，主要目的就是为了实现前后端分离，那么什么是前后端分离？前后端分离目前已经,"> 
+    <meta name="author" content="Finara"> 
+    <link rel="alternative" href="atom.xml" title="茶靡往事" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+</head>
+</html>
+<body class="loading">
+    <span id="config-title" style="display:none">茶靡往事</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url=""></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">从零开始-前后端分离应用开发(2)</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">从零开始-前后端分离应用开发(2)</h1>
+        <div class="stuff">
+            <span>二月 21, 2020</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/python/">python</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/vue/">vue</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/理论/">理论</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <blockquote>
+<p>目前已经实现了前后端环境的部署，为保证后续开发工作的顺利进行，还需继续调整配置。</p>
+</blockquote>
+<h2 id="前后端分离"><a href="#前后端分离" class="headerlink" title="前后端分离"></a>前后端分离</h2><p>项目使用vue.js作为前端，主要目的就是为了实现前后端分离，那么什么是前后端分离？前后端分离目前已经成为互联网开发的业界标准方式。</p>
+<p>在聊前后端分离之前，很多人都不了解什么是前端，什么又是后端。通常情况下，我们说的前端大多是指浏览器这一端，一般是用Html+CSS+JS来实现的，所以通常会引申为用Html+CSS+JS写的大部分程序都是前端，包括App，小程序，H5等;而Java，C，Python，PHP这些运行在服务器端的，统一称之为后端。</p>
+<blockquote>
+<p>在NodeJS出现之后，用NodeJS写的后端部分，也会被人归类为前端，为了区分之前的前端，就给他们起了一个名字，叫做“大前端”。</p>
+</blockquote>
+<p>在不分前后端的时候，无论是Java还是JS，全都是一个人来写。</p>
+<p>为什么现在很多互联网公司在项目开发时，都建议要进行前后端分离，或者说前后端分离能带来哪些优势？（好处多多，这里仅提两个点）</p>
+<p>第一个，并行开发、独立部署、实现前后端解耦，前后端的进度互不影响，在过去，前后端不分离的情况下，项目代码耦合严重相互影响，且前后端人员工作量分布不均。</p>
+<p>第二个，术业有专攻（开发人员分离），以前的JavaWeb项目大多数都是Java程序员又当爹又当妈，又搞前端，又搞后端。前后端分离之后，前端工程师只管前端的事情，后端工程师只管后端的事情。</p>
+<p>我们先看看一个 Web 系统，在前后端不分离时架构设计是什么样的。</p>
+<p><img src="http://imgconvert.csdnimg.cn/aHR0cHM6Ly9tbWJpei5xcGljLmNuL21tYml6X3BuZy9rMkZ3WVlyR29EazFMaWFlendTNUNGaHBrRzRXNWliaWN2b3FDb3oyZ3pVQlp0RlozS00zMkJSTlptRGV5ZTdCNmZSc1NrNXlQaWFBeTY1OEZLNG5FNDFZNVEvNjQwP3d4X2ZtdD1wbmc?x-oss-process=image/format,png" alt="image"></p>
+<p>用户在浏览器上发送请求，服务器端接收到请求，根据 Header 中的 token 进行用户鉴权，从数据库取出数据，处理后将结果数据填入 HTML 模板，返回给浏览器，浏览器将 HTML 展现给用户。</p>
+<p>而采用前后端分离之后，分离的是人员职责，人员职责分离了，因此架构也发生变化。</p>
+<p><img src="http://imgconvert.csdnimg.cn/aHR0cHM6Ly9tbWJpei5xcGljLmNuL21tYml6X3BuZy9rMkZ3WVlyR29EazFMaWFlendTNUNGaHBrRzRXNWliaWN2b1Rnbk9Qa3NrbGF2MUV0cHlLclVocWVhS001b2d5UjdBTVl5aWFoeE5sSng1ZHRLWTkwS2t6SncvNjQwP3d4X2ZtdD1wbmc?x-oss-process=image/format,png" alt="image"></p>
+<p>前后端分离后，前端人员和后端人员约定好接口，前端人员不用再关心业务处理是怎么回事，他只需要把界面做好就可以了，后端人员也不用再关系前端界面是什么样的，他只需要做好业务逻辑处理即可。</p>
+<p>前后端分离是一种架构模式，或者说是最佳实践，它主张将前端开发人员和后端开发人员的工作进行解耦，尽量减少他她们之间的交流成本，帮助他她们更能专注于自己擅长的工作。</p>
+<h2 id="前后端分离应用搭建"><a href="#前后端分离应用搭建" class="headerlink" title="前后端分离应用搭建"></a>前后端分离应用搭建</h2><p>之前已经创建了前后台项目，也经配置后可通过django服务端启动vue的主页，本阶段将使用django自带的orm操作数据库，实现前后端数据交互。</p>
+<h3 id="创建后台接口测试应用"><a href="#创建后台接口测试应用" class="headerlink" title="创建后台接口测试应用"></a>创建后台接口测试应用</h3><p>进入后台根目录，创建应用api_test，用于编写测试类接口。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /Users/finara/Workspace/ddm/ddmp # 进入项目根目录</span><br><span class="line"></span><br><span class="line">python manage.py startapp api_test # 创建接口测试应用</span><br></pre></td></tr></table></figure>
+
+<p>添加应用api_test到settings.py中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">INSTALLED_APPS = [</span><br><span class="line">    &apos;django.contrib.admin&apos;,</span><br><span class="line">    &apos;django.contrib.auth&apos;,</span><br><span class="line">    &apos;django.contrib.contenttypes&apos;,</span><br><span class="line">    &apos;django.contrib.sessions&apos;,</span><br><span class="line">    &apos;django.contrib.messages&apos;,</span><br><span class="line">    &apos;django.contrib.staticfiles&apos;,</span><br><span class="line">    </span><br><span class="line">    &apos;api_test&apos;,  # 添加部分</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>在api_test下的models.py中添加测试实例</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建实例类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    book_name = models.CharField(max_length=<span class="number">128</span>)</span><br><span class="line">    add_time = models.DateTimeField(auto_now_add=<span class="literal">True</span>)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__unicode__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.book_name</span><br></pre></td></tr></table></figure>
+
+<p>实例中只有两个字段，书名book_name和添加时间add_time。如果没有指定主键的话Django会自动新增一个自增id作为主键。</p>
+<p>在api_test目录下的views里我们新增两个接口，一个是show_books返回所有的书籍列表（通过JsonResponse返回能被前端识别的json格式数据），二是add_book接受一个get请求，往数据库里添加一条book数据。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render</span><br><span class="line"><span class="keyword">from</span> django.views.decorators.http <span class="keyword">import</span> require_http_methods</span><br><span class="line"><span class="keyword">from</span> django.core <span class="keyword">import</span> serializers</span><br><span class="line"><span class="keyword">from</span> django.http <span class="keyword">import</span> JsonResponse</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"> </span><br><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> Book</span><br><span class="line"> </span><br><span class="line"><span class="meta">@require_http_methods(["GET"])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_book</span><span class="params">(request)</span>:</span></span><br><span class="line">    response = &#123;&#125;</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        book = Book(book_name=request.GET.get(<span class="string">'book_name'</span>))</span><br><span class="line">        book.save()</span><br><span class="line">        response[<span class="string">'msg'</span>] = <span class="string">'success'</span></span><br><span class="line">        response[<span class="string">'error_num'</span>] = <span class="number">0</span></span><br><span class="line">    <span class="keyword">except</span>  Exception <span class="keyword">as</span> e:</span><br><span class="line">        response[<span class="string">'msg'</span>] = str(e)</span><br><span class="line">        response[<span class="string">'error_num'</span>] = <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> JsonResponse(response)</span><br><span class="line"> </span><br><span class="line"><span class="meta">@require_http_methods(["GET"])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show_books</span><span class="params">(request)</span>:</span></span><br><span class="line">    response = &#123;&#125;</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        books = Book.objects.filter()</span><br><span class="line">        response[<span class="string">'list'</span>] = json.loads(serializers.serialize(<span class="string">"json"</span>, books))</span><br><span class="line">        response[<span class="string">'msg'</span>] = <span class="string">'success'</span></span><br><span class="line">        response[<span class="string">'error_num'</span>] = <span class="number">0</span></span><br><span class="line">    <span class="keyword">except</span>  Exception <span class="keyword">as</span> e:</span><br><span class="line">        response[<span class="string">'msg'</span>] = str(e)</span><br><span class="line">        response[<span class="string">'error_num'</span>] = <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> JsonResponse(response)</span><br></pre></td></tr></table></figure>
+
+<p>可以看出，在ORM的帮忙下，我们的接口实际上不需要自己去组织SQL代码。</p>
+<p>在api_test目录下，新增一个urls.py文件，把我们新增的两个接口添加到路由里</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> url, include</span><br><span class="line"><span class="keyword">from</span> .views <span class="keyword">import</span> *</span><br><span class="line"> </span><br><span class="line">urlpatterns = [</span><br><span class="line">    url(<span class="string">r"add_book$"</span>, add_book, ),</span><br><span class="line">    url(<span class="string">r"show_books$"</span>, show_books, ),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>我们还要把api_test下的urls添加到项目django_vue下的urls中，才能完成路由：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span><br><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path</span><br><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> url, include</span><br><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span><br><span class="line"><span class="keyword">from</span> django.views.generic <span class="keyword">import</span> TemplateView</span><br><span class="line"><span class="keyword">import</span> api_test.urls</span><br><span class="line"> </span><br><span class="line">urlpatterns = [</span><br><span class="line">    url(<span class="string">r"^admin/"</span>, admin.site.urls),</span><br><span class="line">    url(<span class="string">r'^api/'</span>, include(api_test.urls)),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>在项目的根目录，输入命令重构数据库模型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python manage.py makemigrations api_test</span><br><span class="line">python manage.py migrate</span><br></pre></td></tr></table></figure>
+
+<p>至此，创建的表模型已经在后台数据库中创建了，相关新增和查询的接口也配置完成。</p>
+<p>在项目根目录中启动服务，测试接口是否生效</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py runserver</span><br></pre></td></tr></table></figure>
+
+<p>浏览器中输入接口地址，查看返回信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1:8000/api/add_book?book_name=挖掘机技术实用指南</span><br><span class="line"></span><br><span class="line">http://127.0.0.1:8000/api/show_books</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://wx1.sinaimg.cn/mw690/007FUZQ3ly1gc40skyywhj313c07z0uj.jpg" alt="image"></p>
+<h3 id="创建前端操作页面"><a href="#创建前端操作页面" class="headerlink" title="创建前端操作页面"></a>创建前端操作页面</h3><p>由于要使用vue做前后台交互，在之前部署的前端环境中需额外安装vue-resource。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install vue-resource</span><br></pre></td></tr></table></figure>
+
+<p>在frontend目录src下包含入口文件main.js，入口组件App.vue等。后缀为vue的文件是Vue.js框架定义的单文件组件，其中标签中的内容可以理解为是类html的页面结构内容</p>
+<p>在src/component文件夹下新建一个名为Home.vue的组件，通过调用之前在Django上写好的api，实现添加书籍和展示书籍信息的功能。在样式组件上我们使用了饿了么团队推出的element-ui，这是一套专门匹配Vue.js框架的功能样式组件。由于组件的编码涉及到了很多js、html、css的知识，并不是本文的重点，因此在此只贴出部分代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">&lt;div class=&quot;home&quot;&gt;</span><br><span class="line">&lt;el-row display=&quot;margin-top:10px&quot;&gt;</span><br><span class="line">&lt;el-input v-model=&quot;input&quot; placeholder=&quot;请输入书名&quot; style=&quot;display:inline-table; width: 30%; float:left&quot;&gt;&lt;/el-input&gt;</span><br><span class="line">&lt;el-button type=&quot;primary&quot; @click=&quot;addBook()&quot; style=&quot;float:left; margin: 2px;&quot;&gt;新增&lt;/el-button&gt;</span><br><span class="line">&lt;/el-row&gt;</span><br><span class="line">&lt;el-row&gt;</span><br><span class="line">&lt;el-table :data=&quot;bookList&quot; style=&quot;width: 100%&quot; border&gt;</span><br><span class="line">&lt;el-table-column prop=&quot;id&quot; label=&quot;编号&quot; min-width=&quot;100&quot;&gt;</span><br><span class="line">&lt;template slot-scope=&quot;scope&quot;&gt; &#123;&#123; scope.row.pk &#125;&#125; &lt;/template&gt;</span><br><span class="line">&lt;/el-table-column&gt;</span><br><span class="line">&lt;el-table-column prop=&quot;book_name&quot; label=&quot;书名&quot; min-width=&quot;100&quot;&gt;</span><br><span class="line">&lt;template slot-scope=&quot;scope&quot;&gt; &#123;&#123; scope.row.fields.book_name &#125;&#125; &lt;/template&gt;</span><br><span class="line">&lt;/el-table-column&gt;</span><br><span class="line">&lt;el-table-column prop=&quot;add_time&quot; label=&quot;添加时间&quot; min-width=&quot;100&quot;&gt;</span><br><span class="line">&lt;template slot-scope=&quot;scope&quot;&gt; &#123;&#123; scope.row.fields.add_time &#125;&#125; &lt;/template&gt;</span><br><span class="line">&lt;/el-table-column&gt;</span><br><span class="line">&lt;/el-table&gt;</span><br><span class="line">    &lt;/el-row&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"> </span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &apos;home&apos;,</span><br><span class="line">  data () &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      input: &apos;&apos;,</span><br><span class="line">      bookList: []</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted: function () &#123;</span><br><span class="line">    this.showBooks()</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    addBook () &#123;</span><br><span class="line">      this.$http.get(&apos;http://127.0.0.1:8000/api/add_book?book_name=&apos; + this.input)</span><br><span class="line">        .then((response) =&gt; &#123;</span><br><span class="line">          var res = JSON.parse(response.bodyText)</span><br><span class="line">          if (res.error_num === 0) &#123;</span><br><span class="line">            this.showBooks()</span><br><span class="line">          &#125; else &#123;</span><br><span class="line">            this.$message.error(&apos;新增书籍失败，请重试&apos;)</span><br><span class="line">            console.log(res[&apos;msg&apos;])</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;,</span><br><span class="line">    showBooks () &#123;</span><br><span class="line">      this.$http.get(&apos;http://127.0.0.1:8000/api/show_books&apos;)</span><br><span class="line">        .then((response) =&gt; &#123;</span><br><span class="line">          var res = JSON.parse(response.bodyText)</span><br><span class="line">          console.log(res)</span><br><span class="line">          if (res.error_num === 0) &#123;</span><br><span class="line">            this.bookList = res[&apos;list&apos;]</span><br><span class="line">          &#125; else &#123;</span><br><span class="line">            this.$message.error(&apos;查询书籍失败&apos;)</span><br><span class="line">            console.log(res[&apos;msg&apos;])</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"> </span><br><span class="line">&lt;!-- Add &quot;scoped&quot; attribute to limit CSS to this component only --&gt;</span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">  h1, h2 &#123;</span><br><span class="line">    font-weight: normal;</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  ul &#123;</span><br><span class="line">  list-style-type: none;</span><br><span class="line">  padding: 0;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">li &#123;</span><br><span class="line">  display: inline-block;</span><br><span class="line">  margin: 0 10px;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">a &#123;</span><br><span class="line">  color: #42b983;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在src/router目录的index.js中，我们把新建的Home组件，配置到vue-router路由中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">import Vue from &apos;vue&apos;</span><br><span class="line">import Router from &apos;vue-router&apos; &apos;@/components/HelloWorld&apos;</span><br><span class="line">import Home from &apos;@/components/Home&apos;</span><br><span class="line">Vue.use(Router)</span><br><span class="line"></span><br><span class="line">export default new Router(&#123;</span><br><span class="line">  routes: [</span><br><span class="line">    &#123;</span><br><span class="line">      path: &apos;/&apos;,</span><br><span class="line">      name: &apos;Home&apos;,</span><br><span class="line">      component: Home</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>在src/main.js文件中，导入element-ui、vue-resource库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import Vue from &apos;vue&apos;</span><br><span class="line">import App from &apos;./App&apos;</span><br><span class="line">import router from &apos;./router&apos;</span><br><span class="line">import ElementUI from &apos;element-ui&apos;</span><br><span class="line">import VueResource from &apos;vue-resource&apos;</span><br><span class="line">import &apos;element-ui/lib/theme-chalk/index.css&apos;</span><br><span class="line">Vue.use(ElementUI)</span><br><span class="line">Vue.use(VueResource)</span><br><span class="line">Vue.config.productionTip = false</span><br><span class="line"></span><br><span class="line">new Vue(&#123;</span><br><span class="line">  el: &apos;#app&apos;,</span><br><span class="line">  router,</span><br><span class="line">  components: &#123; App &#125;,</span><br><span class="line">  template: &apos;&lt;App/&gt;&apos;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>如果出现跨域问题，需要在Django层注入header，用Django的第三方包django-cors-headers来解决跨域问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">pip install django-cors-headers</span><br><span class="line"></span><br><span class="line">#settings.py 修改</span><br><span class="line">MIDDLEWARE = [</span><br><span class="line">    &apos;django.middleware.security.SecurityMiddleware&apos;,</span><br><span class="line">    &apos;django.contrib.sessions.middleware.SessionMiddleware&apos;,</span><br><span class="line">    &apos;corsheaders.middleware.CorsMiddleware&apos;,</span><br><span class="line">    &apos;django.middleware.common.CommonMiddleware&apos;,</span><br><span class="line">    &apos;django.middleware.csrf.CsrfViewMiddleware&apos;,</span><br><span class="line">    &apos;django.contrib.auth.middleware.AuthenticationMiddleware&apos;,</span><br><span class="line">    &apos;django.contrib.messages.middleware.MessageMiddleware&apos;,</span><br><span class="line">    &apos;django.middleware.clickjacking.XFrameOptionsMiddleware&apos;,</span><br><span class="line">]</span><br><span class="line"> </span><br><span class="line">CORS_ORIGIN_ALLOW_ALL = True</span><br></pre></td></tr></table></figure>
+
+<p>由于在之前的范例中以及配置了入口路径，可测试前端页面无误后打包，并启动后台服务器进行测试.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm run dev</span><br><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+
+<p>在前端工程frontend目录下，输入npm run build，如果项目没有错误的话，就能够看到所有的组件、css、图片等都被webpack自动打包到dist目录下</p>
+<p><img src="http://imgconvert.csdnimg.cn/aHR0cHM6Ly9tbWJpei5xcGljLmNuL21tYml6X3BuZy9rMkZ3WVlyR29EazFMaWFlendTNUNGaHBrRzRXNWliaWN2b0JoZXRmRGRadU5nR09rNWFpY0dCWVN6RmNOaDhVOGljYWdlZFlaM2s1THdBMjBvODNGaWNydU5iZy82NDA_d3hfZm10PXBuZw?x-oss-process=image/format,png" alt="image"></p>
+<p><img src="http://imgconvert.csdnimg.cn/aHR0cHM6Ly9tbWJpei5xcGljLmNuL21tYml6X3BuZy9rMkZ3WVlyR29EazFMaWFlendTNUNGaHBrRzRXNWliaWN2b2ZwNnYzTmxIckZUT0VoOG9FWEY5MzJFRFlDS3B0ZWliemV6ZWpsenNuZzFJVDhBUERTZnVnU1EvNjQwP3d4X2ZtdD1wbmc?x-oss-process=image/format,png" alt="image"></p>
+<p>无误后可回到项目根目录启动服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py runserver</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://wx1.sinaimg.cn/mw690/007FUZQ3ly1gc417cc5pcj31370hswgh.jpg" alt="image"></p>
+<p>注意此时服务的端口已经是Django服务的8000而不是node服务的8080了，说明我们已经成功通过Django集成了Vue前端工程</p>
+<p>该实战示例为大家充分展示了现在主流的前后端分离方式，由前端框架，如Vue.js来构建实现前端界面，再通过后端框架，如Django来实现API数据提供，两者通过接口进行通讯、相辅相成、最终实现一个完整Web项目</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='https://music.163.com/song/media/outer/url?id=536622304.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+       
+     <!--baidu share-->
+     <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone"></a><a href="#" class="bds_tsina" data-cmd="tsina"></a><a href="#" class="bds_tqq" data-cmd="tqq"></a><a href="#" class="bds_renren" data-cmd="renren"></a><a href="#" class="bds_weixin" data-cmd="weixin"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?'];</script>
+
+    <!--安装来必力-->
+    <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80MzI0OC8xOTc5NA==">
+<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+</script>
+<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+    
+    <!--生成目录-->
+    
+        <div class='side'>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前后端分离"><span class="toc-number">1.</span> <span class="toc-text">前后端分离</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前后端分离应用搭建"><span class="toc-number">2.</span> <span class="toc-text">前后端分离应用搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建后台接口测试应用"><span class="toc-number">2.1.</span> <span class="toc-text">创建后台接口测试应用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建前端操作页面"><span class="toc-number">2.2.</span> <span class="toc-text">创建前端操作页面</span></a></li></ol></li></ol>
+        </div>
+    
+
+   
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
