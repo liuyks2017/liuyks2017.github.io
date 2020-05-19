@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+<html lang class="loading">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Python在大数据中的应用 - 茶靡往事</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="Finara,"> 
+    <meta name="description" content="我特么真是个天才,三轨数据引擎开发流程需求场景由于业务流程的需求，需要对本年全量的交易流水数据按客户、交易时间正序排列，并对每笔交易金额进行校验与转换工作。
+在数据调研过程中，累计到5月份的交易量约为3亿，日增量10,"> 
+    <meta name="author" content="Finara"> 
+    <link rel="alternative" href="atom.xml" title="茶靡往事" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+</head>
+</html>
+<body class="loading">
+    <span id="config-title" style="display:none">茶靡往事</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url=""></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">Python在大数据中的应用</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">Python在大数据中的应用</h1>
+        <div class="stuff">
+            <span>五月 19, 2020</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/优化/">优化</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/回写/">回写</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/大数据/">大数据</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h1 id="三轨数据引擎开发流程"><a href="#三轨数据引擎开发流程" class="headerlink" title="三轨数据引擎开发流程"></a>三轨数据引擎开发流程</h1><h2 id="需求场景"><a href="#需求场景" class="headerlink" title="需求场景"></a>需求场景</h2><p>由于业务流程的需求，需要对本年全量的交易流水数据按客户、交易时间正序排列，并对每笔交易金额进行校验与转换工作。</p>
+<p>在数据调研过程中，累计到5月份的交易量约为3亿，日增量100-200万不定，考虑到对整个数据集群的影响性，即使guassdb有着优秀的运算能力也无法稳定的支持上亿甚至上百万数据的轮询和递归计算。</p>
+<p>经过多种实现方式的对标后，项目组采用了对内存计算有显著优化的Python，提升计算效率。</p>
+<h2 id="架构设计"><a href="#架构设计" class="headerlink" title="架构设计"></a>架构设计</h2><p><img src="http://wx2.sinaimg.cn/large/007FUZQ3ly1geas2wjv0wj32pn0u07ik.jpg" alt="数据管道整体数据架构图"></p>
+<p>软件的技术架构主要从数据提取、数据清洗、数据加工与数据回写几步，其中具体职责如下：</p>
+<h3 id="数据提取"><a href="#数据提取" class="headerlink" title="数据提取"></a>数据提取</h3><ol>
+<li>编写大数据抽取器，通过数据分块提取的形式抽取大数据，防止内存溢出。</li>
+<li>编写数据接口，面向不同类的复杂SQL进行抽取和存储。</li>
+</ol>
+<h3 id="数据清洗"><a href="#数据清洗" class="headerlink" title="数据清洗"></a>数据清洗</h3><ol>
+<li>过滤无效数据，缩减数据集。</li>
+<li>异常码值转换。</li>
+<li>异常度量字段转换。</li>
+<li>数据集排序。</li>
+</ol>
+<h3 id="数据加工"><a href="#数据加工" class="headerlink" title="数据加工"></a>数据加工</h3><ol>
+<li>业务交易数据校验。</li>
+<li>业务交易数据累加。</li>
+<li>业务交易逻辑管理。</li>
+</ol>
+<h3 id="数据回写"><a href="#数据回写" class="headerlink" title="数据回写"></a>数据回写</h3><ol>
+<li>将内存中的数据回写至目标数据库。</li>
+</ol>
+<h3 id="风险点"><a href="#风险点" class="headerlink" title="风险点"></a>风险点</h3><ol>
+<li>数据读取速度</li>
+<li>数据加工速度</li>
+<li>数据回写速度</li>
+<li>连接池</li>
+</ol>
+<h2 id="开发方案"><a href="#开发方案" class="headerlink" title="开发方案"></a>开发方案</h2><p>既然主开发语言选择了Python，其他功能件直接从支持库中选取即可。</p>
+<h3 id="连接池"><a href="#连接池" class="headerlink" title="连接池"></a>连接池</h3><p>在起初的版本中使用的是Sqlalchemy库，它自身提供的ORM数据模型可以让开发者和后台SQL完全解耦，也可以快速的通过模型实例处理数据。但最终由于生产环境问题，导致改工具不可用，也因此无奈放弃掉。（生产环境中的pg版本过低）</p>
+<p>在正式版本中采用了DBUtils库，它本身是是一套Python数据库连接池包，并允许对非线程安全的数据库接口进行线程安全包装。</p>
+<blockquote>
+<p>DBUtils提供两种外部接口：</p>
+</blockquote>
+<blockquote>
+<pre><code>PersistentDB ：提供线程专用的数据库连接，并自动管理连接。
+PooledDB ：提供线程间可共享的数据库连接，并自动管理连接。</code></pre></blockquote>
+<p>实测证明 PersistentDB的速度是最高的，但是在某些特殊情况下，数据库的连接过程可能异常缓慢，而此时的PooledDB则可以提供相对来说平均连接时间比较短的管理方式。</p>
+<h3 id="数据读取"><a href="#数据读取" class="headerlink" title="数据读取"></a>数据读取</h3><p>数据读取与筛选采用了常用的Pandas和Numpy库，Pandas纳入了大量库和一些标准的数据模型，提供了高效地操作大型数据集所需的工具。</p>
+<p>最重要的是它支持分块读取，可以大大的减少数据读取时对内存造成的压力。</p>
+<p>此外，Pandas提供了大量的内置函数，我们也因此可以便捷的进行排序和检索等工作。</p>
+<blockquote>
+<p>经过性能测试，可以看到Pandas有明显的数据量瓶颈，在1000万以下的数据环境中有着优异的表现。</p>
+</blockquote>
+<h3 id="数据回写-1"><a href="#数据回写-1" class="headerlink" title="数据回写"></a>数据回写</h3><p>在处理数据回写的过程中，也是踩坑最多的，在设计初始阶段没有考虑到数据版本的问题，导致很大一部分时间都是基于psycopy2模块进行Pg库的开发，回写的方案也是一改再改。其中涉及的方案有以下3类:</p>
+<h4 id="ORM模型"><a href="#ORM模型" class="headerlink" title="ORM模型"></a>ORM模型</h4><p>根据目标回写表创建Model对象，并以对象组的形式传参，批量插入数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"># 导入:</span><br><span class="line">from sqlalchemy import Column, String, create_engine</span><br><span class="line">from sqlalchemy.orm import sessionmaker</span><br><span class="line">from sqlalchemy.ext.declarative import declarative_base</span><br><span class="line"></span><br><span class="line"># 创建对象的基类:</span><br><span class="line">Base = declarative_base()</span><br><span class="line"></span><br><span class="line"># 定义User对象:</span><br><span class="line">class User(Base):</span><br><span class="line">    # 表的名字:</span><br><span class="line">    __tablename__ = &apos;user&apos;</span><br><span class="line"></span><br><span class="line">    # 表的结构:</span><br><span class="line">    id = Column(String(20), primary_key=True)</span><br><span class="line">    name = Column(String(20))</span><br><span class="line"></span><br><span class="line"># 初始化数据库连接:</span><br><span class="line">engine = create_engine(&apos;mysql+mysqlconnector://root:password@localhost:3306/test&apos;)</span><br><span class="line"># 创建DBSession类型:</span><br><span class="line">DBSession = sessionmaker(bind=engine)</span><br></pre></td></tr></table></figure>
+
+<p>以上代码完成SQLAlchemy的初始化和具体每个表的class定义。如果有多个表，就继续定义其他class，例如School：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">class School(Base):</span><br><span class="line">    __tablename__ = &apos;school&apos;</span><br><span class="line">    id = ...</span><br><span class="line">    name = ...</span><br></pre></td></tr></table></figure>
+
+<p>由于有了ORM，我们向数据库表中添加一行记录，可以视为添加一个User对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 创建session对象:</span><br><span class="line">session = DBSession()</span><br><span class="line"># 创建新User对象:</span><br><span class="line">new_user = User(id=&apos;5&apos;, name=&apos;Bob&apos;)</span><br><span class="line"># 添加到session:</span><br><span class="line">session.add(new_user)</span><br><span class="line"># 提交即保存到数据库:</span><br><span class="line">session.commit()</span><br><span class="line"># 关闭session:</span><br><span class="line">session.close()</span><br></pre></td></tr></table></figure>
+
+<p>可见，ORM就是把数据库表的行与相应的对象建立关联，互相转换。</p>
+<p>由于关系数据库的多个表还可以用外键实现一对多、多对多等关联，相应地，ORM框架也可以提供两个对象之间的一对多、多对多等功能。</p>
+<h4 id="executemany"><a href="#executemany" class="headerlink" title="executemany()"></a>executemany()</h4><p>以遍历数据集的形式拼接Insert语句，然后调用连接池的execute函数实现数据回写。</p>
+<p>其中，pgdb中支持execute()单行提交和executemany()并行提交两种模式。</p>
+<p>该方案也是一直着力优化的方法，用尽了一切心血，什么并发任务啊，多线程啊，协程啊都用了个遍，但最终也仅仅是把执行速度从50分钟优化到了40分钟,xD。</p>
+<h4 id="copy-from"><a href="#copy-from" class="headerlink" title="copy_from()"></a>copy_from()</h4><p>重点来了，由于性能没有实现显著提升已经几乎放弃的时候，和同事聊天时突然发现了一个传统的数据装载形式：<br>通过在服务端生成数据文件，并使用pg库的外表进行过快速插入，百万数据也就10秒左右。</p>
+<p>也就是说，数据库引擎内部一定是有对文本文件数据交换的优化，方便数据迁移等工作。顺着这条思路下去，针对pg库有以下几种交换形式：</p>
+<ol>
+<li><p>建立外表，通过服务端启用GDS监听数据文件，并将外表同步到目标库中。</p>
+<blockquote>
+<p>该方法需要生成固定位置的数据文件，并每天动态变更数据文件位置与生成新的gds命令。</p>
+</blockquote>
+</li>
+<li><p>使用pg库自带的copy命令直接对文件进行交换。</p>
+</li>
+</ol>
+<p>对比两种方案，gds明显更安全一些，可以比较数据差异并调整；copy则直接从文件到目标表，无法做任何校验，且不支持多表。显然方法二是更适合我的需求，它可以解决我数据回写的问题。</p>
+<p>那么问题来了，copy是gsql命令，需要在控制台中登录数据库执行，无法直接使用连接池执行，需要其他中间件处理，例如通过Python执行sh文件，或者执行CMD命令，但不管怎样都会导致代码的可读性变差，文件间的相互引用复杂。又经过了一晚上的搜索，终于在Google上找到了pgdb中的copy_from()方法。</p>
+<p>copy_from()可以将指定路径下的数据文件加载到目标库中，经验证加载140万流水数据仅需要6s，效果整整提升了99.8%…事实证明，该方案是可行的，无非就是如何快速生成指定分隔符的数据文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">copy_from（file，table，sep =&apos;\ t&apos;，null =&apos;\\ N&apos;，size = 8192，columns = None ）</span><br><span class="line">从类似文件的目标文件中读取数据，将它们附加到名为table的表中。</span><br><span class="line">file - 从中读取数据的类文件对象。它必须具有 read()和readline()方法。</span><br><span class="line">table - 要将数据复制到的表的名称。</span><br><span class="line">sep - 文件中预期的列分隔符。默认为选项卡。</span><br><span class="line">null - NULL文件中的文本表示。默认为两个字符串\N。</span><br><span class="line">size - 用于从文件中读取的缓冲区的大小。</span><br><span class="line">columns - 可以使用要导入的列的名称进行迭代。长度和类型应与要读取的文件的内容相匹配。如果未指定，则假定整个表与文件结构匹配。</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这个故事让我明白了一个深刻的道理，如果方法不对，你再怎么努力也不会变的优秀。</p>
+</blockquote>
+<h3 id="数据文件生成"><a href="#数据文件生成" class="headerlink" title="数据文件生成"></a>数据文件生成</h3><p>为了快速提供数据文件，我采用了并行文件模式遍历数据并将其写入dat文件中，但事实证明速度并不理想，大批量数据的读写会有严重的IO交互，仅数据文件加载就需要划分5分钟左右的时间。后来我就在想，copy_from()真的必须输入文本文件么？</p>
+<p>带着这个问题我又开始了Google之旅，发现copy_from()输入是可读文件，也就是说只要有read()属性就可以。因此可以使用os中的StringIO作为字符串缓存，直接操作入库。</p>
+<p>that’s all</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='https://music.163.com/song/media/outer/url?id=536622304.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+       
+     <!--baidu share-->
+     <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone"></a><a href="#" class="bds_tsina" data-cmd="tsina"></a><a href="#" class="bds_tqq" data-cmd="tqq"></a><a href="#" class="bds_renren" data-cmd="renren"></a><a href="#" class="bds_weixin" data-cmd="weixin"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?'];</script>
+
+    <!--安装来必力-->
+    <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80MzI0OC8xOTc5NA==">
+<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+</script>
+<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+    
+    <!--生成目录-->
+    
+        <div class='side'>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#三轨数据引擎开发流程"><span class="toc-number">1.</span> <span class="toc-text">三轨数据引擎开发流程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#需求场景"><span class="toc-number">1.1.</span> <span class="toc-text">需求场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#架构设计"><span class="toc-number">1.2.</span> <span class="toc-text">架构设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据提取"><span class="toc-number">1.2.1.</span> <span class="toc-text">数据提取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据清洗"><span class="toc-number">1.2.2.</span> <span class="toc-text">数据清洗</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据加工"><span class="toc-number">1.2.3.</span> <span class="toc-text">数据加工</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据回写"><span class="toc-number">1.2.4.</span> <span class="toc-text">数据回写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#风险点"><span class="toc-number">1.2.5.</span> <span class="toc-text">风险点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开发方案"><span class="toc-number">1.3.</span> <span class="toc-text">开发方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#连接池"><span class="toc-number">1.3.1.</span> <span class="toc-text">连接池</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据读取"><span class="toc-number">1.3.2.</span> <span class="toc-text">数据读取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据回写-1"><span class="toc-number">1.3.3.</span> <span class="toc-text">数据回写</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ORM模型"><span class="toc-number">1.3.3.1.</span> <span class="toc-text">ORM模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#executemany"><span class="toc-number">1.3.3.2.</span> <span class="toc-text">executemany()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#copy-from"><span class="toc-number">1.3.3.3.</span> <span class="toc-text">copy_from()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据文件生成"><span class="toc-number">1.3.4.</span> <span class="toc-text">数据文件生成</span></a></li></ol></li></ol></li></ol>
+        </div>
+    
+
+   
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
